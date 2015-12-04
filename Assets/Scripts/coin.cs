@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class coin : MonoBehaviour {
+    public spawner spawner;
     private map grid;
     private Vector2 pos;
     private float time = 0;
@@ -13,6 +14,7 @@ public class coin : MonoBehaviour {
         SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
         Addition = sprite.bounds.size.x;
         grid = FindObjectOfType<map>();
+        spawner = FindObjectOfType<spawner>();
     }
 	
 	// Update is called once per frame
@@ -22,6 +24,7 @@ public class coin : MonoBehaviour {
         {
             pos = getRealPosition(grid.moveLeft(getFixedPosition(), this));
             posUpdate();
+
         }
         if (Input.GetKeyDown(KeyCode.D) && moving)
         {
@@ -29,11 +32,14 @@ public class coin : MonoBehaviour {
             posUpdate();
         }
         time += Time.deltaTime;
-        if (time >= 1 && moving || Input.GetKey(KeyCode.S) && moving)
+        if (moving && (time >= 1 || Input.GetKey(KeyCode.S)))
         {
             pos = getRealPosition(grid.moveDown(getFixedPosition(), this));
-            Debug.Log(pos);
             posUpdate();
+            if (!moving)
+            {
+                spawner.instanciate();
+            }
             time = 0;
         }
     }
@@ -45,7 +51,19 @@ public class coin : MonoBehaviour {
 
     public Vector2 getFixedPosition()
     {
-        return new Vector2((int)(pos.x / Addition), -(int)(pos.y / Addition));
+        if (pos.x == 0 && pos.y == 0)
+        {
+            return new Vector2(0, 0);
+        }
+        if (pos.x == 0)
+        {
+            return new Vector2(0, (-pos.y / Addition));
+        }
+        if (pos.y == 0)
+        {
+            return new Vector2((pos.x / Addition), 0);
+        }
+        return new Vector2((pos.x / Addition), (-pos.y / Addition));
     }
     
     public Vector2 getRealPosition(Vector2 pos)
@@ -56,6 +74,5 @@ public class coin : MonoBehaviour {
     public void stop()
     {
         moving = false;
-        Debug.Log("stahp");
     }
 }

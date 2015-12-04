@@ -25,17 +25,15 @@ public class spawner : MonoBehaviour {
 
     public void instanciate()
     {
-        Debug.Log("xd");
         float value = randomize();
         if (value >= 0 && value < 1)
         {
             GameObject newObj = Instantiate(coin, initialPos, Quaternion.identity) as GameObject;
             coin newCoin = newObj.GetComponent<coin>();
+            Debug.Log(newObj.transform.position);
             grid.mapAppend(newCoin);
         }
-        if (value >= 1 && value < 2) ;
-        if (value >= 2 && value < 3) ;
-        if (value >= 3 && value < 4) ;
+
     }
 
 }

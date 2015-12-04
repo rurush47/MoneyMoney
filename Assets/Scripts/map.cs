@@ -5,6 +5,8 @@ using System.Linq;
 
 public class map : MonoBehaviour {
 
+
+
     [SerializeField]
     public int width = 10;
     [SerializeField]
@@ -23,8 +25,8 @@ public class map : MonoBehaviour {
             {
                 grid[i, j] = null;
             }
-        }  
-    } 
+        }
+    }
 
     public Vector2 moveLeft(Vector2 pos, coin entity)
     {
@@ -39,7 +41,7 @@ public class map : MonoBehaviour {
 
     public Vector2 moveRight(Vector2 pos, coin entity)
     {
-        if ((int)pos.x < width && grid[(int)pos.x + 1, (int)pos.y] == null)
+        if ((int)pos.x < (width - 1) && grid[(int)pos.x + 1, (int)pos.y] == null)
         {
             grid[(int)pos.x, (int)pos.y] = null;
             grid[(int)pos.x + 1, (int)pos.y] = entity;
@@ -50,24 +52,22 @@ public class map : MonoBehaviour {
 
     public Vector2 moveDown(Vector2 pos, coin entity)
     {
-        if((int)pos.y < heigth && grid[(int)pos.x, (int)pos.y + 1] == null)
-        {
-            grid[(int)pos.x, (int)pos.y] = null;
-            grid[(int)pos.x, (int)pos.y + 1] = entity;
-            pos = new Vector2(pos.x, pos.y + 1);
-        }
-        if ((int)pos.y == heigth - 1 /*|| grid[(int)pos.x, (int)pos.y + 1] != null*/)
+        if ((pos.y + 1) == (heigth - 1) || grid[(int)pos.x, (int)pos.y + 2] != null)
         {
             entity.stop();
-            objSpawner.instanciate();
+            grid[(int)pos.x, (int)pos.y] = null;
+            grid[(int)pos.x, (int)pos.y + 1] = entity;
+            return new Vector2(pos.x, pos.y + 1);
         }
-        return pos;
+        else
+            grid[(int)pos.x, (int)pos.y] = null;
+            grid[(int)pos.x, (int)pos.y + 1] = entity;
+            return new Vector2(pos.x, pos.y + 1);
     }
 
     public void mapAppend(coin newEntity)
     {
         Vector2 pos = newEntity.getFixedPosition();
-        Debug.Log(pos);
         grid[(int)pos.x, (int)pos.y] = newEntity;
     }
 

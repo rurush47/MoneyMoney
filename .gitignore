@@ -6,8 +6,12 @@
 [Oo]bj/
 [Bb]uild
 [Ll]ibrary/
+[Aa]ssets/Standard\ Assets/
+[Aa]ssets/Editor/
+
 sysinfo.txt
 *.stackdump
+*.meta
  
 # ===================================== #
 # Visual Studio / MonoDevelop generated #

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class coin : MonoBehaviour {
+public class coin : entity {
     public spawner spawner;
     private map grid;
     private Vector2 pos;
@@ -9,7 +9,7 @@ public class coin : MonoBehaviour {
     private float Addition;
     private bool moving = true;
     // Use this for initialization
-    void Start () {
+    void Awake () {
         pos = gameObject.transform.position;
         SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
         Addition = sprite.bounds.size.x;
@@ -36,9 +36,10 @@ public class coin : MonoBehaviour {
         {
             pos = getRealPosition(grid.moveDown(getFixedPosition(), this));
             posUpdate();
+            Debug.Log("coin pos:" + pos + "grid:" + getFixedPosition());
             if (!moving)
             {
-                spawner.instanciate();
+                spawner.instantiateCoin();
             }
             time = 0;
         }

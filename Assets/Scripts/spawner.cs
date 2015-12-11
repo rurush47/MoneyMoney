@@ -3,6 +3,7 @@ using System.Collections;
 
 public class spawner : MonoBehaviour {
     public GameObject coin;
+    public GameObject piggy;
     public GameObject bankNote;
     public GameObject map;
     private map grid;
@@ -10,7 +11,8 @@ public class spawner : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         grid = map.GetComponent<map>();
-        instanciate();
+        instantiatePiggy();
+        instantiateCoin();
 	}
 	
 	// Update is called once per frame
@@ -22,18 +24,24 @@ public class spawner : MonoBehaviour {
     {
         return(Random.Range(0,1));
     }
-
-    public void instanciate()
+    
+    public void instantiateCoin()
     {
         float value = randomize();
         if (value >= 0 && value < 1)
         {
             GameObject newObj = Instantiate(coin, initialPos, Quaternion.identity) as GameObject;
             coin newCoin = newObj.GetComponent<coin>();
-            Debug.Log(newObj.transform.position);
             grid.mapAppend(newCoin);
         }
 
     }
 
+    public void instantiatePiggy()
+    { 
+        Vector2 initPos = new Vector2(grid.randomizeInitPos().x * 23, -grid.randomizeInitPos().y * 23); 
+        GameObject newObj = Instantiate(piggy, initPos, Quaternion.identity) as GameObject;
+        piggy newPiggy = newObj.GetComponent<piggy>();
+        grid.mapAppend(newPiggy);
+    }
 }

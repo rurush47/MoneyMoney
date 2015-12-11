@@ -14,11 +14,11 @@ public class map : MonoBehaviour {
     [SerializeField]
     public GameObject Coin;
     public spawner objSpawner;
-    private coin[,] grid;
+    private entity[,] grid;
 
-    public map()
+    map()
     {
-        grid = new coin[width, heigth];
+        grid = new entity[width, heigth];
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < heigth; j++)
@@ -26,6 +26,10 @@ public class map : MonoBehaviour {
                 grid[i, j] = null;
             }
         }
+    }
+
+    void Start()
+    {
     }
 
     public Vector2 moveLeft(Vector2 pos, coin entity)
@@ -71,5 +75,22 @@ public class map : MonoBehaviour {
         grid[(int)pos.x, (int)pos.y] = newEntity;
     }
 
+    public void mapAppend(piggy newEntity)
+    {
+        // TODO -1 WTF 
+        Vector2 pos = newEntity.getFixedPosition();
+        Debug.Log("Piggy pos map:" + pos);
+        grid[(int)pos.x, (int)pos.y - 1] = newEntity;
+        grid[(int)pos.x + 1, (int)pos.y - 1] = newEntity;
+        grid[(int)pos.x + 1, (int)pos.y] = newEntity;
+        grid[(int)pos.x, (int)pos.y] = newEntity;
+    }
 
+
+    public Vector2 randomizeInitPos()
+    {
+        return new Vector2(Mathf.Floor(Random.Range(0, width)),
+        Mathf.Floor(Random.Range(1, heigth + 1)));
+    }
+    
 }

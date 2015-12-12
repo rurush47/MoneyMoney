@@ -21,7 +21,7 @@ public class piggy : entity {
 
     // Update is called once per frame
     void Update () {
-        	
+        coinCheck();
 	}
 
     public Vector2 getFixedPosition()
@@ -40,4 +40,52 @@ public class piggy : entity {
         }
         return new Vector2((pos.x / Addition), (-pos.y / Addition));
     }
+
+    public void coinCheck()
+    {
+        Vector2 fixedPos = getFixedPosition();
+        entity[,] currentGrid = grid.getGrid();
+        int counter1 = 0;
+        int counter2 = 0;
+
+        for (int i = 0; i < 4; i++)
+        {
+            if(currentGrid[(int)fixedPos.x, (int)fixedPos.y - (i + 2)] is coin)
+            {
+                ++counter1;
+            }
+        }
+
+        for (int i = 0; i < 4; i++)
+        {
+            if (currentGrid[(int)fixedPos.x + 1, (int)fixedPos.y - (i + 2)] is coin)
+            {
+                ++counter2;
+            }
+        }
+
+        if (counter1 == 4)
+        {
+            score((int)fixedPos.x, (int)fixedPos.y - 2);
+        }
+
+        if (counter2 == 4)
+        {
+            score((int)fixedPos.x + 1, (int)fixedPos.y - 2);
+        }
+
+    }
+
+    public void score(int x, int y)
+    {
+        Debug.Log("score triggered");
+        entity[,] currentGrid = grid.getGrid();
+
+        for(int i = 0; i < 4; i++)
+        {
+            Destroy(currentGrid[x, y - i].getGameObject());
+            currentGrid[x, y - i] = null;
+        }
+    }
+
 }

@@ -86,11 +86,15 @@ public class map : MonoBehaviour {
         grid[(int)pos.x, (int)pos.y] = newEntity;
     }
 
-
     public Vector2 randomizeInitPos()
     {
         return new Vector2(Mathf.Floor(Random.Range(0, width)),
         Mathf.Floor(Random.Range(1, heigth + 1)));
+    }
+
+    public entity[,] getGrid()
+    {
+        return grid;
     }
     
 }

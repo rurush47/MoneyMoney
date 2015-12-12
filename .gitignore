@@ -8,11 +8,12 @@
 [Ll]ibrary/
 [Aa]ssets/Standard\ Assets/
 [Aa]ssets/Editor/
+[Pr]rojectSettings/
 
 sysinfo.txt
 *.stackdump
 *.meta
- 
+
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
 # ===================================== #
@@ -26,7 +27,7 @@ sysinfo.txt
 /*.user
 /*.unityproj
 /*.booproj
- 
+
 # ============ #
 # OS generated #
 # ============ #

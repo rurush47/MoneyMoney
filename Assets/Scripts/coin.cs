@@ -8,6 +8,7 @@ public class coin : entity {
     private float time = 0;
     private float Addition;
     private bool moving = true;
+    private GameObject gameObj;
     // Use this for initialization
     void Awake () {
         pos = gameObject.transform.position;

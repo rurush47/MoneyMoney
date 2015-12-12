@@ -14,4 +14,9 @@ public class entity : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    public GameObject getGameObject()
+    {
+        return gameObject;
+    }
 }

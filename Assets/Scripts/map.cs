@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class map : MonoBehaviour {
+public class Map : MonoBehaviour {
 
 
 
@@ -13,12 +13,12 @@ public class map : MonoBehaviour {
     public int heigth = 20;
     [SerializeField]
     public GameObject Coin;
-    public spawner objSpawner;
-    private entity[,] grid;
+    public Spawner objSpawner;
+    private Entity[,] grid;
 
-    map()
+    Map()
     {
-        grid = new entity[width, heigth];
+        grid = new Entity[width, heigth];
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < heigth; j++)
@@ -32,7 +32,7 @@ public class map : MonoBehaviour {
     {
     }
 
-    public Vector2 moveLeft(Vector2 pos, coin entity)
+    public Vector2 moveLeft(Vector2 pos, Coin entity)
     {
         if ((int)pos.x > 0 && grid[(int)pos.x - 1, (int)pos.y] == null)
         {
@@ -43,7 +43,7 @@ public class map : MonoBehaviour {
         return pos;
     }
 
-    public Vector2 moveRight(Vector2 pos, coin entity)
+    public Vector2 moveRight(Vector2 pos, Coin entity)
     {
         if ((int)pos.x < (width - 1) && grid[(int)pos.x + 1, (int)pos.y] == null)
         {
@@ -54,7 +54,7 @@ public class map : MonoBehaviour {
         return pos;
     }
 
-    public Vector2 moveDown(Vector2 pos, coin entity)
+    public Vector2 moveDown(Vector2 pos, Coin entity)
     {
         if ((pos.y + 1) == (heigth - 1) || grid[(int)pos.x, (int)pos.y + 2] != null)
         {
@@ -69,13 +69,13 @@ public class map : MonoBehaviour {
             return new Vector2(pos.x, pos.y + 1);
     }
 
-    public void mapAppend(coin newEntity)
+    public void mapAppend(Coin newEntity)
     {
         Vector2 pos = newEntity.getFixedPosition();
         grid[(int)pos.x, (int)pos.y] = newEntity;
     }
 
-    public void mapAppend(piggy newEntity)
+    public void mapAppend(Piggy newEntity)
     {
         // TODO -1 WTF 
         Vector2 pos = newEntity.getFixedPosition();
@@ -88,11 +88,11 @@ public class map : MonoBehaviour {
 
     public Vector2 randomizeInitPos()
     {
-        return new Vector2(Mathf.Floor(Random.Range(0, width)),
-        Mathf.Floor(Random.Range(1, heigth + 1)));
+        return new Vector2(Mathf.Floor(Random.Range(0, width - 1)),
+        Mathf.Floor(Random.Range(4, heigth)));
     }
 
-    public entity[,] getGrid()
+    public Entity[,] getGrid()
     {
         return grid;
     }

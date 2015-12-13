@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class entity : MonoBehaviour {
+public class Entity : MonoBehaviour {
     
     //TODO dziedziczone variables 
 

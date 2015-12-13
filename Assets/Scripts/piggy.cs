@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class piggy : entity {
+public class Piggy : Entity {
 
-    public spawner spawner;
-    private map grid;
+    public Spawner spawner;
+    private Map grid;
     private Vector2 pos;
     private float time = 0;
     private float Addition;
@@ -12,11 +12,11 @@ public class piggy : entity {
     void Awake()
     {
         pos = gameObject.transform.position;
-        Debug.Log("piggy realpos:" + pos);
+        Debug.Log("Piggy realpos:" + pos);
         SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
         Addition = sprite.bounds.size.x / 2;
-        grid = FindObjectOfType<map>();
-        spawner = FindObjectOfType<spawner>();
+        grid = FindObjectOfType<Map>();
+        spawner = FindObjectOfType<Spawner>();
     }
 
     // Update is called once per frame
@@ -44,13 +44,13 @@ public class piggy : entity {
     public void coinCheck()
     {
         Vector2 fixedPos = getFixedPosition();
-        entity[,] currentGrid = grid.getGrid();
+        Entity[,] currentGrid = grid.getGrid();
         int counter1 = 0;
         int counter2 = 0;
 
         for (int i = 0; i < 4; i++)
         {
-            if(currentGrid[(int)fixedPos.x, (int)fixedPos.y - (i + 2)] is coin)
+            if(currentGrid[(int)fixedPos.x, (int)fixedPos.y - (i + 2)] is Coin)
             {
                 ++counter1;
             }
@@ -58,7 +58,7 @@ public class piggy : entity {
 
         for (int i = 0; i < 4; i++)
         {
-            if (currentGrid[(int)fixedPos.x + 1, (int)fixedPos.y - (i + 2)] is coin)
+            if (currentGrid[(int)fixedPos.x + 1, (int)fixedPos.y - (i + 2)] is Coin)
             {
                 ++counter2;
             }
@@ -79,7 +79,7 @@ public class piggy : entity {
     public void score(int x, int y)
     {
         Debug.Log("score triggered");
-        entity[,] currentGrid = grid.getGrid();
+        Entity[,] currentGrid = grid.getGrid();
 
         for(int i = 0; i < 4; i++)
         {

@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class coin : entity {
-    public spawner spawner;
-    private map grid;
+public class Coin : Entity {
+    public Spawner spawner;
+    private Map grid;
     private Vector2 pos;
     private float time = 0;
     private float Addition;
@@ -14,8 +14,8 @@ public class coin : entity {
         pos = gameObject.transform.position;
         SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
         Addition = sprite.bounds.size.x;
-        grid = FindObjectOfType<map>();
-        spawner = FindObjectOfType<spawner>();
+        grid = FindObjectOfType<Map>();
+        spawner = FindObjectOfType<Spawner>();
     }
 	
 	// Update is called once per frame

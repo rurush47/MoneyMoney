@@ -1,16 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class spawner : MonoBehaviour {
+public class Spawner : MonoBehaviour {
     public GameObject coin;
     public GameObject piggy;
     public GameObject bankNote;
     public GameObject map;
-    private map grid;
+    private Map grid;
     private Vector2 initialPos = new Vector2(23,0);
 	// Use this for initialization
 	void Start () {
-        grid = map.GetComponent<map>();
+        grid = map.GetComponent<Map>();
         instantiatePiggy();
         instantiateCoin();
 	}
@@ -31,7 +31,7 @@ public class spawner : MonoBehaviour {
         if (value >= 0 && value < 1)
         {
             GameObject newObj = Instantiate(coin, initialPos, Quaternion.identity) as GameObject;
-            coin newCoin = newObj.GetComponent<coin>();
+            Coin newCoin = newObj.GetComponent<Coin>();
             grid.mapAppend(newCoin);
         }
 
@@ -41,7 +41,7 @@ public class spawner : MonoBehaviour {
     { 
         Vector2 initPos = new Vector2(grid.randomizeInitPos().x * 23, -grid.randomizeInitPos().y * 23); 
         GameObject newObj = Instantiate(piggy, initPos, Quaternion.identity) as GameObject;
-        piggy newPiggy = newObj.GetComponent<piggy>();
+        Piggy newPiggy = newObj.GetComponent<Piggy>();
         grid.mapAppend(newPiggy);
     }
 }

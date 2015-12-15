@@ -27,22 +27,25 @@ public class Coin : Entity {
             posUpdate();
 
         }
+
         if (Input.GetKeyDown(KeyCode.D) && moving)
         {
             pos = getRealPosition(grid.moveRight(getFixedPosition(), this));
             posUpdate();
         }
-        time += Time.deltaTime;
-        if (moving && (time >= 1 || Input.GetKey(KeyCode.S)))
+    }
+
+    public void moveDown()
+    {
+        if (moving)
         {
             pos = getRealPosition(grid.moveDown(getFixedPosition(), this));
             posUpdate();
-            Debug.Log("coin pos:" + pos + "grid:" + getFixedPosition());
-            if (!moving)
+
+            if(!moving)
             {
                 spawner.instantiateCoin();
             }
-            time = 0;
         }
     }
 

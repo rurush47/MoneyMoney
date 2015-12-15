@@ -78,12 +78,13 @@ public class Piggy : Entity {
 
     public void score(int x, int y)
     {
-        Debug.Log("score triggered");
         Entity[,] currentGrid = grid.getGrid();
 
         for(int i = 0; i < 4; i++)
         {
-            Destroy(currentGrid[x, y - i].getGameObject());
+            GameObject toDestroy = currentGrid[x, y - i].getGameObject();
+            grid.getCoins().Remove(toDestroy.GetComponent<Coin>());
+            Destroy(toDestroy);
             currentGrid[x, y - i] = null;
         }
     }

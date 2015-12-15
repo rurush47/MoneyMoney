@@ -14,7 +14,11 @@ public class Map : MonoBehaviour {
     [SerializeField]
     public GameObject Coin;
     public Spawner objSpawner;
+    public float gameUpdateSpeed;
+    private float time;
     private Entity[,] grid;
+    private List<Coin> coins = new List<Coin>();
+    private List<Piggy> piggies = new List<Piggy>();
 
     Map()
     {
@@ -28,8 +32,35 @@ public class Map : MonoBehaviour {
         }
     }
 
-    void Start()
+    void Update()
     {
+        time += Time.deltaTime;
+
+        if(Input.GetKeyDown(KeyCode.S))
+        {
+            time = 0;
+            gameUpdate();
+        }
+
+        if(time >= gameUpdateSpeed)
+        {
+            time = 0;
+            gameUpdate();
+        }
+    }
+
+    void gameUpdate()
+    {
+        for (int i = width - 1; i >= 0; --i)
+        {
+            for (int j = heigth - 1; j >= 0; --j)
+            {
+                if (grid[i,j] != null && grid[i,j] is Coin)
+                {
+                    grid[i, j].getGameObject().GetComponent<Coin>().moveDown();
+                }
+            }
+        }
     }
 
     public Vector2 moveLeft(Vector2 pos, Coin entity)
@@ -72,14 +103,18 @@ public class Map : MonoBehaviour {
     public void mapAppend(Coin newEntity)
     {
         Vector2 pos = newEntity.getFixedPosition();
+
+        coins.Add(newEntity);
+
         grid[(int)pos.x, (int)pos.y] = newEntity;
     }
 
     public void mapAppend(Piggy newEntity)
     {
-        // TODO -1 WTF 
         Vector2 pos = newEntity.getFixedPosition();
-        Debug.Log("Piggy pos map:" + pos);
+
+        piggies.Add(newEntity);
+
         grid[(int)pos.x, (int)pos.y - 1] = newEntity;
         grid[(int)pos.x + 1, (int)pos.y - 1] = newEntity;
         grid[(int)pos.x + 1, (int)pos.y] = newEntity;
@@ -95,6 +130,16 @@ public class Map : MonoBehaviour {
     public Entity[,] getGrid()
     {
         return grid;
+    }
+
+    public List<Coin> getCoins()
+    {
+        return coins;
+    }
+
+    public List<Piggy> getPiggies()
+    {
+        return piggies;
     }
     
 }

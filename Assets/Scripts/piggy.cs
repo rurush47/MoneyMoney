@@ -12,7 +12,6 @@ public class Piggy : Entity {
     void Awake()
     {
         pos = gameObject.transform.position;
-        Debug.Log("Piggy realpos:" + pos);
         SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
         Addition = sprite.bounds.size.x / 2;
         grid = FindObjectOfType<Map>();
@@ -21,7 +20,7 @@ public class Piggy : Entity {
 
     // Update is called once per frame
     void Update () {
-        coinCheck();
+        
 	}
 
     public Vector2 getFixedPosition()

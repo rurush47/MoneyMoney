@@ -51,15 +51,15 @@ public class Map : MonoBehaviour {
 
     void gameUpdate()
     {
-        for (int i = width - 1; i >= 0; --i)
+        //somehow foreach gives a bug
+        for(int i = 0; i < coins.Count; i++)
         {
-            for (int j = heigth - 1; j >= 0; --j)
-            {
-                if (grid[i,j] != null && grid[i,j] is Coin)
-                {
-                    grid[i, j].getGameObject().GetComponent<Coin>().moveDown();
-                }
-            }
+            coins[i].moveDown();
+        }
+
+        foreach (Piggy element in piggies)
+        {
+            element.coinCheck();
         }
     }
 

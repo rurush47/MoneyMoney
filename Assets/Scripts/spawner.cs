@@ -8,18 +8,14 @@ public class Spawner : MonoBehaviour {
     public GameObject map;
     private Map grid;
     private Vector2 initialPos = new Vector2(23,0);
-	// Use this for initialization
-	void Start () {
+
+
+    void Start () {
         grid = map.GetComponent<Map>();
         instantiatePiggy();
         instantiateCoin();
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
     private float randomize()
     {
         return(Random.Range(0,1));

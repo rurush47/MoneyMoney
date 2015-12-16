@@ -5,20 +5,18 @@ using System.Linq;
 
 public class Map : MonoBehaviour {
 
-
-
-    [SerializeField]
-    public int width = 10;
-    [SerializeField]
-    public int heigth = 20;
-    [SerializeField]
-    public GameObject Coin;
+    //grid init values
+    [SerializeField] public int width = 10;
+    [SerializeField] public int heigth = 20;
+    private Entity[,] grid;
+    //game relevant values
     public Spawner objSpawner;
     public float gameUpdateSpeed;
     private float time;
-    private Entity[,] grid;
+    //obj vactors
     private List<Coin> coins = new List<Coin>();
     private List<Piggy> piggies = new List<Piggy>();
+
 
     Map()
     {
@@ -52,9 +50,15 @@ public class Map : MonoBehaviour {
     void gameUpdate()
     {
         //somehow foreach gives a bug
+
         for(int i = 0; i < coins.Count; i++)
-        {
+        { 
             coins[i].moveDown();
+        }
+
+        for (int i = 0; i < coins.Count; i++)
+        {
+            coins[i].coinCheck();
         }
 
         foreach (Piggy element in piggies)

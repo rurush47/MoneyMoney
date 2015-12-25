@@ -2,19 +2,17 @@
 using System.Collections;
 
 public class Coin : Entity {
-	public Spawner spawner;
-	private Map grid;
-	private Vector2 pos;
-	private float Addition;
+
 	private bool moving = true;
-	private GameObject gameObj;
+	public bool hasNote = false;
 	
 
 	void Awake () {
 		pos = gameObject.transform.position;
 		SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
 		Addition = sprite.bounds.size.x;
-		grid = FindObjectOfType<Map>();
+		map = FindObjectOfType<Map>();
+        grid = map.getGrid();
 		spawner = FindObjectOfType<Spawner>();
 	}
 	
@@ -22,29 +20,53 @@ public class Coin : Entity {
 	{ 
 		if (Input.GetKeyDown(KeyCode.A) && moving)
 		{
-			pos = getRealPosition(grid.moveLeft(getFixedPosition(), this));
+            moveLeft();
 			posUpdate();
 
 		}
 
 		if (Input.GetKeyDown(KeyCode.D) && moving)
 		{
-			pos = getRealPosition(grid.moveRight(getFixedPosition(), this));
+			moveRight();
 			posUpdate();
 		}
 	}
 
+    public void moveLeft()
+    {
+        Vector2 fixedPos = getFixedPosition();
+
+        if ((int)fixedPos.x > 0 && grid[(int)fixedPos.x - 1, (int)fixedPos.y] == null)
+        {
+            grid[(int)fixedPos.x, (int)fixedPos.y] = null;
+            grid[(int)fixedPos.x - 1, (int)fixedPos.y] = this;
+            fixedPos = new Vector2(fixedPos.x - 1, fixedPos.y);
+        }
+        pos = getRealPosition(fixedPos);
+    }
+
+    public void moveRight()
+    {
+        Vector2 fixedPos = getFixedPosition();
+
+        if ((int)fixedPos.x < (map.width - 1) && grid[(int)fixedPos.x + 1, (int)fixedPos.y] == null)
+        {
+            grid[(int)fixedPos.x, (int)fixedPos.y] = null;
+            grid[(int)fixedPos.x + 1, (int)fixedPos.y] = this;
+            fixedPos = new Vector2(fixedPos.x + 1, fixedPos.y);
+        }
+
+        pos = getRealPosition(fixedPos);
+    }
+
+	
 	public void moveDown()
 	{
 		if (moving)
 		{
-			pos = getRealPosition(grid.moveDown(getFixedPosition(), this));
+			pos = getRealPosition(map.moveDown(getFixedPosition(), this));
 			posUpdate();
 
-			if(!moving)
-			{
-				spawner.instantiateCoin();
-			}
 		}
 	}
 
@@ -83,10 +105,15 @@ public class Coin : Entity {
 		moving = false;
 	}
 
+	public bool isMoving()
+	{
+		return moving;
+	}
+
 	public void coinCheck()
 	{
 		Vector2 fixedPos = getFixedPosition();
-		Entity[,] currentGrid = grid.getGrid();
+		Entity[,] currentGrid = map.getGrid();
 		int counter = 0;
 
 		for (int i = 0; i < 3; i++)
@@ -105,12 +132,12 @@ public class Coin : Entity {
 
 	private void eraseCoinsAbove(int x, int y)
 	{
-		Entity[,] currentGrid = grid.getGrid();
+		Entity[,] currentGrid = map.getGrid();
 
 		for (int i = 0; i < 4; i++)
 		{
 			GameObject toDestroy = currentGrid[x, y - i].getGameObject();
-			grid.getCoins().Remove(toDestroy.GetComponent<Coin>());
+			map.getCoins().Remove(toDestroy.GetComponent<Coin>());
 			Destroy(toDestroy);
 			currentGrid[x, y - i] = null;
 		}

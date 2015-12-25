@@ -34,7 +34,7 @@ public class Map : MonoBehaviour {
     {
         time += Time.deltaTime;
 
-        if(Input.GetKeyDown(KeyCode.S))
+        if(Input.GetKey(KeyCode.S))
         {
             time = 0;
             gameUpdate();
@@ -58,13 +58,26 @@ public class Map : MonoBehaviour {
 
         for (int i = 0; i < coins.Count; i++)
         {
-            coins[i].coinCheck();
+            if(!coins[i].isMoving())
+                coins[i].coinCheck();
         }
 
         foreach (Piggy element in piggies)
         {
             element.coinCheck();
         }
+
+        bool isMovement = false;
+
+        for (int i = 0; i < coins.Count; i++)
+        {
+            if (coins[i].isMoving())
+                isMovement = true;
+        }
+
+        if (!isMovement)
+            objSpawner.instantiateCoin();
+
     }
 
     public Vector2 moveLeft(Vector2 pos, Coin entity)

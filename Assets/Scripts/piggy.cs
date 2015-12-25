@@ -3,18 +3,12 @@ using System.Collections;
 
 public class Piggy : Entity {
 
-    public Spawner spawner;
-    private Map grid;
-    private Vector2 pos;
-    private float Addition;
-    
-
     void Awake()
     {
         pos = gameObject.transform.position;
         SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
         Addition = sprite.bounds.size.x / 2;
-        grid = FindObjectOfType<Map>();
+        map = FindObjectOfType<Map>();
         spawner = FindObjectOfType<Spawner>();
     }
 
@@ -41,7 +35,7 @@ public class Piggy : Entity {
     public void coinCheck()
     {
         Vector2 fixedPos = getFixedPosition();
-        Entity[,] currentGrid = grid.getGrid();
+        Entity[,] currentGrid = map.getGrid();
         int counter1 = 0;
         int counter2 = 0;
 
@@ -75,12 +69,12 @@ public class Piggy : Entity {
 
     public void score(int x, int y)
     {
-        Entity[,] currentGrid = grid.getGrid();
+        Entity[,] currentGrid = map.getGrid();
 
         for(int i = 0; i < 4; i++)
         {
             GameObject toDestroy = currentGrid[x, y - i].getGameObject();
-            grid.getCoins().Remove(toDestroy.GetComponent<Coin>());
+            map.getCoins().Remove(toDestroy.GetComponent<Coin>());
             Destroy(toDestroy);
             currentGrid[x, y - i] = null;
         }

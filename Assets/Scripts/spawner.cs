@@ -14,7 +14,7 @@ public class Spawner : MonoBehaviour {
 	{
 		grid = map.GetComponent<Map>();
 		instantiatePiggy();
-		instantiateNote();
+        instantiateCoin();
 	}
 	
 	private float randomize()

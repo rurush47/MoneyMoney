@@ -101,6 +101,15 @@ public class Map : MonoBehaviour {
         grid[(int)pos.x, (int)pos.y] = newEntity;
     }
 
+    public void mapAppend(Note newEntity)
+    {
+        Debug.Log(newEntity.getFixedPosition());
+        Vector2 pos = newEntity.getFixedPosition();
+
+        grid[(int)pos.x, (int)pos.y] = newEntity;
+        grid[(int)pos.x + 1, (int)pos.y] = newEntity;
+    }
+
     public Vector2 randomizeInitPos()
     {
         return new Vector2(Mathf.Floor(Random.Range(0, width - 1)),

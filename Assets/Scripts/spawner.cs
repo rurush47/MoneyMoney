@@ -5,16 +5,16 @@ public class Spawner : MonoBehaviour {
 	public GameObject coin;
 	public GameObject piggy;
 	public GameObject note;
-	public GameObject map;
-	private Map grid;
+	public GameObject gameMap;
+	private Map map;
 	private Vector2 initialPos = new Vector2(23,0);
 
 
 	void Start ()
 	{
-		grid = map.GetComponent<Map>();
+		map = gameMap.GetComponent<Map>();
 		instantiatePiggy();
-        instantiateCoin();
+        instantiateNote();
 	}
 	
 	private float randomize()
@@ -29,27 +29,24 @@ public class Spawner : MonoBehaviour {
 		{
 			GameObject newObj = Instantiate(coin, initialPos, Quaternion.identity) as GameObject;
 			Coin newCoin = newObj.GetComponent<Coin>();
-			grid.mapAppend(newCoin);
+			map.mapAppend(newCoin);
 		}
 
 	}
 
 	public void instantiateNote()
 	{
-		{
-			GameObject newObj = Instantiate(note, initialPos, Quaternion.identity) as GameObject;
-			Coin newCoin = newObj.transform.Find("coin1").GetComponent<Coin>();
-			Coin newCoin2 = newObj.transform.Find("coin2").GetComponent<Coin>(); 
-			grid.mapAppend(newCoin);
-			grid.mapAppend(newCoin2);
-		}
+		GameObject newObj = Instantiate(note, initialPos, Quaternion.identity) as GameObject;
+        Note newNote = newObj.GetComponent<Note>();
+        Debug.Log(newNote.getFixedPosition());
+        map.mapAppend(newNote);	
 	}
 
 	public void instantiatePiggy()
 	{ 
-		Vector2 initPos = new Vector2(grid.randomizeInitPos().x * 23, -grid.randomizeInitPos().y * 23); 
+		Vector2 initPos = new Vector2(map.randomizeInitPos().x * 23, -map.randomizeInitPos().y * 23); 
 		GameObject newObj = Instantiate(piggy, initPos, Quaternion.identity) as GameObject;
 		Piggy newPiggy = newObj.GetComponent<Piggy>();
-		grid.mapAppend(newPiggy);
+		map.mapAppend(newPiggy);
 	}
 }

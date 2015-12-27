@@ -7,10 +7,10 @@ public class Note : Entity {
     private bool moving = true;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		pos = gameObject.transform.position;
 		SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
-		Addition = sprite.bounds.size.x;
+		Addition = sprite.bounds.size.x / 2;
 		map = FindObjectOfType<Map>();
         grid = map.getGrid();
 		spawner = FindObjectOfType<Spawner>();
@@ -22,32 +22,70 @@ public class Note : Entity {
 	void Update () {
         if (Input.GetKeyDown(KeyCode.A) && moving)
         {
-            
+            moveLeft();
             posUpdate();
 
         }
 
         if (Input.GetKeyDown(KeyCode.D) && moving)
         {
+            moveRight();
             posUpdate();
         }
     }
 
-    /*private void moveLeft()
+    public void moveLeft()
     {
         Vector2 fixedPos = getFixedPosition();
-        if (fixedPos.x > 0 && grid[(int)fixedPos.x - 1, (int)fixedPos.y] == null)
+        //Debug.Log(grid[(int)fixedPos.x - 1, (int)fixedPos.y]);
+        
+        if ((int)fixedPos.x > 0 && grid[(int)fixedPos.x - 1, (int)fixedPos.y] == null)
         {
-            grid[(int)pos.x , (int)pos.y] = null;
-            grid[(int)pos.x - 1, (int)pos.y] = this;
-            return new Vector2(pos.x - 1, pos.y);
+            grid[(int)fixedPos.x + 1, (int)fixedPos.y] = null;
+            grid[(int)fixedPos.x - 1, (int)fixedPos.y] = this;
+            fixedPos = new Vector2(fixedPos.x - 1, fixedPos.y);
         }
-        return pos;
-    }*/
+        pos = getRealPosition(fixedPos);
+    }
 
-    private void moveRight()
+    public void moveRight()
     {
+        Vector2 fixedPos = getFixedPosition();
 
+        if ((int)fixedPos.x < (map.width - 2) && grid[(int)fixedPos.x + 2, (int)fixedPos.y] == null)
+        {
+            grid[(int)fixedPos.x, (int)fixedPos.y] = null;
+            grid[(int)fixedPos.x + 2, (int)fixedPos.y] = this;
+            fixedPos = new Vector2(fixedPos.x + 1, fixedPos.y);
+        }
+        Debug.Log(fixedPos);
+        pos = getRealPosition(fixedPos);
+    }
+
+
+    public void moveDown()
+    {
+        if (moving)
+        {
+            Vector2 fixedPos = getFixedPosition();
+
+            if ((fixedPos.y + 1) == (map.heigth - 1) || grid[(int)fixedPos.x, (int)fixedPos.y + 2] != null)
+            {
+                stop();
+                grid[(int)fixedPos.x, (int)fixedPos.y] = null;
+                grid[(int)fixedPos.x, (int)fixedPos.y + 1] = this;
+                fixedPos = new Vector2(fixedPos.x, fixedPos.y + 1);
+            }
+            else
+            {
+                grid[(int)fixedPos.x, (int)fixedPos.y] = null;
+                grid[(int)fixedPos.x, (int)fixedPos.y + 1] = this;
+                fixedPos = new Vector2(fixedPos.x, fixedPos.y + 1);
+            }
+
+            pos = getRealPosition(fixedPos);
+            posUpdate();
+        }
     }
 
     public Vector2 getFixedPosition()

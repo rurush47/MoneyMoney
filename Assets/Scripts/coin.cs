@@ -73,18 +73,14 @@ public class Coin : Entity {
         {
             Vector2 fixedPos = getFixedPosition();
 
-            if ((fixedPos.y + 1) == (map.heigth - 1) || grid[(int)fixedPos.x, (int)fixedPos.y + 2] != null)
+            
+            grid[(int)fixedPos.x, (int)fixedPos.y] = null;
+            grid[(int)fixedPos.x, (int)fixedPos.y + 1] = this;
+            fixedPos = new Vector2(fixedPos.x, fixedPos.y + 1);
+            
+            if ((fixedPos.y) == (map.heigth - 1) || grid[(int)fixedPos.x, (int)fixedPos.y + 1] != null)
             {
                 stop();
-                grid[(int)fixedPos.x, (int)fixedPos.y] = null;
-                grid[(int)fixedPos.x, (int)fixedPos.y + 1] = this;
-                fixedPos = new Vector2(fixedPos.x, fixedPos.y + 1);
-            }
-            else
-            {
-                grid[(int)fixedPos.x, (int)fixedPos.y] = null;
-                grid[(int)fixedPos.x, (int)fixedPos.y + 1] = this;
-                fixedPos = new Vector2(fixedPos.x, fixedPos.y + 1);
             }
 
             pos = getRealPosition(fixedPos);

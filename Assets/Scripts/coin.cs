@@ -155,7 +155,33 @@ public class Coin : Entity {
 		for (int i = 0; i < 4; i++)
 		{
 			GameObject toDestroy = currentGrid[x, y - i].getGameObject();
-			map.getCoins().Remove(toDestroy.GetComponent<Coin>());
+            Coin toDestroyCoin = toDestroy.GetComponent<Coin>();
+            //if there is note
+            if (toDestroyCoin.hasNote)
+            {
+                if(toDestroyCoin.note.getLeftCoin() == toDestroyCoin)
+                {
+                    toDestroyCoin.note.getRightCoin().hasNote = false;
+                    toDestroyCoin.note.getRightCoin().note = null;
+                    toDestroyCoin.hasNote = false;
+
+                    map.getNotes().Remove(toDestroyCoin.note);
+                    Destroy(toDestroyCoin.note.gameObject);
+                    toDestroyCoin.note = null;
+                }
+                else
+                {
+                    toDestroyCoin.note.getLeftCoin().hasNote = false;
+                    toDestroyCoin.note.getLeftCoin().note = null;
+                    toDestroyCoin.hasNote = false;
+
+                    map.getNotes().Remove(toDestroyCoin.note);
+                    Destroy(toDestroyCoin.note.gameObject);
+                    toDestroyCoin.note = null;
+                }
+            }
+
+			map.getCoins().Remove(toDestroyCoin);
 			Destroy(toDestroy);
 			currentGrid[x, y - i] = null;
 		}

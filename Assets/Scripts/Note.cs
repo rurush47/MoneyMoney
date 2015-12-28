@@ -6,22 +6,21 @@ public class Note : Entity {
     private Coin leftCoin;
     private Coin rightCoin;
     private bool moving = true;
-    SpriteRenderer sprite;
 
     // Use this for initialization
     void Awake () {
-		sprite = gameObject.GetComponent<SpriteRenderer>();
+		SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
 		pos = gameObject.transform.position;
 		Addition = sprite.bounds.size.x / 2;
 		map = FindObjectOfType<Map>();
         grid = map.getGrid();
 		spawner = FindObjectOfType<Spawner>();
-        //leftCoin = gameObject.transform.Find("coin1").gameObject.GetComponent<Coin>();
+        //leftCoin
         GameObject leftCoinObj = Instantiate(coinPrefab, transform.position, Quaternion.identity) as GameObject;
         leftCoin = leftCoinObj.GetComponent<Coin>();
         leftCoin.hasNote = true;
         leftCoin.setNote(this);
-        //rightCoin = gameObject.transform.Find("coin2").gameObject.GetComponent<Coin>();
+        //rightCoin
         GameObject rightCoinObj = Instantiate(coinPrefab, transform.position + new Vector3(1*Addition, 0, 0), Quaternion.identity) as GameObject;
         rightCoin = rightCoinObj.GetComponent<Coin>();
         rightCoin.hasNote = true;
@@ -55,19 +54,7 @@ public class Note : Entity {
     public void moveRight()
     {
         if(moving)
-        {
-
-           /* Vector2 fixedPos = getFixedPosition();
-
-            if ((int)fixedPos.x < (map.width - 2) && grid[(int)fixedPos.x + 2, (int)fixedPos.y] == null)
-            {
-                fixedPos = new Vector2(fixedPos.x + 1, fixedPos.y);
-            }
-            
-            pos = getRealPosition(fixedPos);
-            posUpdate();
-
-        */
+        { 
             rightCoin.moveRight();
             leftCoin.moveRight();
             transform.position = leftCoin.transform.position;
@@ -87,7 +74,7 @@ public class Note : Entity {
             {
                 leftCoin.stop();
             }
-            sprite.transform.position = leftCoin.transform.position;
+            transform.position = leftCoin.transform.position;
         }
     }
 

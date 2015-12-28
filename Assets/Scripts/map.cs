@@ -64,11 +64,6 @@ public class Map : MonoBehaviour {
         }
 
         //items movement
-        for (int i = 0; i < notes.Count; i++)
-        {
-            if (notes[i].isMoving())
-                notes[i].moveDown();
-        }
 
         for (int i = 0; i < coins.Count; i++)
         {
@@ -76,6 +71,11 @@ public class Map : MonoBehaviour {
                 coins[i].moveDown();
         }
 
+        for (int i = 0; i < notes.Count; i++)
+        {
+            if (notes[i].isMoving())
+                notes[i].moveDown();
+        }
         //checking for movement
 
         bool isMovement = false;

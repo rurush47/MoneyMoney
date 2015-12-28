@@ -2,22 +2,28 @@
 using System.Collections;
 
 public class Note : Entity {
+    public GameObject coinPrefab;
     private Coin leftCoin;
     private Coin rightCoin;
     private bool moving = true;
+    SpriteRenderer sprite;
 
-	// Use this for initialization
-	void Awake () {
+    // Use this for initialization
+    void Awake () {
+		sprite = gameObject.GetComponent<SpriteRenderer>();
 		pos = gameObject.transform.position;
-		SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
 		Addition = sprite.bounds.size.x / 2;
 		map = FindObjectOfType<Map>();
         grid = map.getGrid();
 		spawner = FindObjectOfType<Spawner>();
-        leftCoin = gameObject.transform.Find("coin1").gameObject.GetComponent<Coin>();
+        //leftCoin = gameObject.transform.Find("coin1").gameObject.GetComponent<Coin>();
+        GameObject leftCoinObj = Instantiate(coinPrefab, transform.position, Quaternion.identity) as GameObject;
+        leftCoin = leftCoinObj.GetComponent<Coin>();
         leftCoin.hasNote = true;
         leftCoin.setNote(this);
-        rightCoin = gameObject.transform.Find("coin2").gameObject.GetComponent<Coin>();
+        //rightCoin = gameObject.transform.Find("coin2").gameObject.GetComponent<Coin>();
+        GameObject rightCoinObj = Instantiate(coinPrefab, transform.position + new Vector3(1*Addition, 0, 0), Quaternion.identity) as GameObject;
+        rightCoin = rightCoinObj.GetComponent<Coin>();
         rightCoin.hasNote = true;
         rightCoin.setNote(this);
     }
@@ -38,20 +44,11 @@ public class Note : Entity {
     public void moveLeft()
     {
         if(moving)
-        {
-
-            Vector2 fixedPos = getFixedPosition();
-        
-            if ((int)fixedPos.x > 0 && grid[(int)fixedPos.x - 1, (int)fixedPos.y] == null)
-            {
-                fixedPos = new Vector2(fixedPos.x - 1, fixedPos.y);
-            }
-
-            pos = getRealPosition(fixedPos);
-            posUpdate();
-            //
+        { 
             leftCoin.moveLeft();
             rightCoin.moveLeft();
+            transform.position = leftCoin.transform.position;
+            
         }
     }
 
@@ -60,7 +57,7 @@ public class Note : Entity {
         if(moving)
         {
 
-            Vector2 fixedPos = getFixedPosition();
+           /* Vector2 fixedPos = getFixedPosition();
 
             if ((int)fixedPos.x < (map.width - 2) && grid[(int)fixedPos.x + 2, (int)fixedPos.y] == null)
             {
@@ -70,39 +67,28 @@ public class Note : Entity {
             pos = getRealPosition(fixedPos);
             posUpdate();
 
-        
+        */
             rightCoin.moveRight();
             leftCoin.moveRight();
+            transform.position = leftCoin.transform.position;
         }
     }
 
 
     public void moveDown()
     {
-        /*if (moving)
+       if (moving)
         {
-            Vector2 fixedPos = getFixedPosition();
-
-            if ((fixedPos.y + 1) == (map.heigth - 1) || grid[(int)fixedPos.x, (int)fixedPos.y + 2] != null
-                || grid[(int)fixedPos.x + 1, (int)fixedPos.y + 2] != null)
+            if (!leftCoin.isMoving())
             {
-                stop();
-                leftCoin.moveDown();
-                leftCoin.stop();
-                rightCoin.moveDown();
                 rightCoin.stop();
-                fixedPos = new Vector2(fixedPos.x, fixedPos.y + 1);
             }
-            else
+            if (!rightCoin.isMoving())
             {
-                rightCoin.moveDown();
-                leftCoin.moveDown();
-                fixedPos = new Vector2(fixedPos.x, fixedPos.y + 1);
+                leftCoin.stop();
             }
-
-            pos = getRealPosition(fixedPos);
-            posUpdate();
-        }*/
+            sprite.transform.position = leftCoin.transform.position;
+        }
     }
 
     public Vector2 getFixedPosition()

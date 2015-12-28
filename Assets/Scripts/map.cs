@@ -16,6 +16,7 @@ public class Map : MonoBehaviour {
     //obj vactors
     private List<Coin> coins = new List<Coin>();
     private List<Piggy> piggies = new List<Piggy>();
+    private List<Note> notes = new List<Note>();
 
 
     Map()
@@ -51,11 +52,6 @@ public class Map : MonoBehaviour {
     {
         //somehow foreach gives a bug
 
-        for(int i = 0; i < coins.Count; i++)
-        { 
-            coins[i].moveDown();
-        }
-
         for (int i = 0; i < coins.Count; i++)
         {
             if(!coins[i].isMoving())
@@ -66,6 +62,21 @@ public class Map : MonoBehaviour {
         {
             element.coinCheck();
         }
+
+        //items movement
+        for (int i = 0; i < notes.Count; i++)
+        {
+            if (notes[i].isMoving())
+                notes[i].moveDown();
+        }
+
+        for (int i = 0; i < coins.Count; i++)
+        {
+            if (coins[i].isMoving())
+                coins[i].moveDown();
+        }
+
+        //checking for movement
 
         bool isMovement = false;
 
@@ -103,11 +114,16 @@ public class Map : MonoBehaviour {
 
     public void mapAppend(Note newEntity)
     {
-        Debug.Log(newEntity.getFixedPosition());
         Vector2 pos = newEntity.getFixedPosition();
 
-        grid[(int)pos.x, (int)pos.y] = newEntity;
-        grid[(int)pos.x + 1, (int)pos.y] = newEntity;
+        notes.Add(newEntity);
+
+        coins.Add(newEntity.getRightCoin());
+        coins.Add(newEntity.getLeftCoin());
+
+        grid[(int)pos.x, (int)pos.y] = newEntity.getLeftCoin();
+        grid[(int)pos.x + 1, (int)pos.y] = newEntity.getRightCoin();
+
     }
 
     public Vector2 randomizeInitPos()
@@ -129,6 +145,11 @@ public class Map : MonoBehaviour {
     public List<Piggy> getPiggies()
     {
         return piggies;
+    }
+
+    public List<Note> getNotes()
+    {
+        return notes;
     }
     
 }

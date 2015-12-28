@@ -3,9 +3,10 @@ using System.Collections;
 
 public class Coin : Entity {
 
-	private bool moving = true;
+    private Note note;
+    private bool moving = true;
 	public bool hasNote = false;
-	
+
 
 	void Awake () {
 		pos = gameObject.transform.position;
@@ -18,45 +19,51 @@ public class Coin : Entity {
 	
 	void Update ()
 	{ 
-		if (Input.GetKeyDown(KeyCode.A) && moving)
+		if (Input.GetKeyDown(KeyCode.A) && moving && !hasNote)
 		{
             moveLeft();
-			posUpdate();
-
 		}
 
-		if (Input.GetKeyDown(KeyCode.D) && moving)
+		if (Input.GetKeyDown(KeyCode.D) && moving && !hasNote)
 		{
 			moveRight();
-			posUpdate();
-		}
+        }
 	}
 
     public void moveLeft()
     {
-        Vector2 fixedPos = getFixedPosition();
-
-        if ((int)fixedPos.x > 0 && grid[(int)fixedPos.x - 1, (int)fixedPos.y] == null)
+        if(moving)
         {
-            grid[(int)fixedPos.x, (int)fixedPos.y] = null;
-            grid[(int)fixedPos.x - 1, (int)fixedPos.y] = this;
-            fixedPos = new Vector2(fixedPos.x - 1, fixedPos.y);
+            Vector2 fixedPos = getFixedPosition();
+
+            if ((int)fixedPos.x > 0 && grid[(int)fixedPos.x - 1, (int)fixedPos.y] == null)
+            {
+                grid[(int)fixedPos.x, (int)fixedPos.y] = null;
+                grid[(int)fixedPos.x - 1, (int)fixedPos.y] = this;
+                fixedPos = new Vector2(fixedPos.x - 1, fixedPos.y);
+            }
+            pos = getRealPosition(fixedPos);
+            posUpdate();
         }
-        pos = getRealPosition(fixedPos);
     }
 
     public void moveRight()
     {
-        Vector2 fixedPos = getFixedPosition();
-
-        if ((int)fixedPos.x < (map.width - 1) && grid[(int)fixedPos.x + 1, (int)fixedPos.y] == null)
+        if (moving)
         {
-            grid[(int)fixedPos.x, (int)fixedPos.y] = null;
-            grid[(int)fixedPos.x + 1, (int)fixedPos.y] = this;
-            fixedPos = new Vector2(fixedPos.x + 1, fixedPos.y);
-        }
 
-        pos = getRealPosition(fixedPos);
+            Vector2 fixedPos = getFixedPosition();
+
+            if ((int)fixedPos.x < (map.width - 1) && grid[(int)fixedPos.x + 1, (int)fixedPos.y] == null)
+            {
+                grid[(int)fixedPos.x, (int)fixedPos.y] = null;
+                grid[(int)fixedPos.x + 1, (int)fixedPos.y] = this;
+                fixedPos = new Vector2(fixedPos.x + 1, fixedPos.y);
+            }
+
+            pos = getRealPosition(fixedPos);
+            posUpdate();
+        }
     }
 
 	
@@ -157,4 +164,9 @@ public class Coin : Entity {
 			currentGrid[x, y - i] = null;
 		}
 	}
+
+    public void setNote(Note parentNote)
+    {
+        note = parentNote;
+    }
 }

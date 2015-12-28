@@ -2,8 +2,8 @@
 using System.Collections;
 
 public class Note : Entity {
-    private GameObject leftCoin;
-    private GameObject rightCoin;
+    private Coin leftCoin;
+    private Coin rightCoin;
     private bool moving = true;
 
 	// Use this for initialization
@@ -14,8 +14,12 @@ public class Note : Entity {
 		map = FindObjectOfType<Map>();
         grid = map.getGrid();
 		spawner = FindObjectOfType<Spawner>();
-        leftCoin = gameObject.transform.Find("coin1").gameObject;
-        rightCoin = gameObject.transform.Find("coin2").gameObject;
+        leftCoin = gameObject.transform.Find("coin1").gameObject.GetComponent<Coin>();
+        leftCoin.hasNote = true;
+        leftCoin.setNote(this);
+        rightCoin = gameObject.transform.Find("coin2").gameObject.GetComponent<Coin>();
+        rightCoin.hasNote = true;
+        rightCoin.setNote(this);
     }
 	
 	// Update is called once per frame
@@ -23,69 +27,82 @@ public class Note : Entity {
         if (Input.GetKeyDown(KeyCode.A) && moving)
         {
             moveLeft();
-            posUpdate();
-
         }
 
         if (Input.GetKeyDown(KeyCode.D) && moving)
         {
             moveRight();
-            posUpdate();
         }
     }
 
     public void moveLeft()
     {
-        Vector2 fixedPos = getFixedPosition();
-        //Debug.Log(grid[(int)fixedPos.x - 1, (int)fixedPos.y]);
-        
-        if ((int)fixedPos.x > 0 && grid[(int)fixedPos.x - 1, (int)fixedPos.y] == null)
+        if(moving)
         {
-            grid[(int)fixedPos.x + 1, (int)fixedPos.y] = null;
-            grid[(int)fixedPos.x - 1, (int)fixedPos.y] = this;
-            fixedPos = new Vector2(fixedPos.x - 1, fixedPos.y);
+
+            Vector2 fixedPos = getFixedPosition();
+        
+            if ((int)fixedPos.x > 0 && grid[(int)fixedPos.x - 1, (int)fixedPos.y] == null)
+            {
+                fixedPos = new Vector2(fixedPos.x - 1, fixedPos.y);
+            }
+
+            pos = getRealPosition(fixedPos);
+            posUpdate();
+            //
+            leftCoin.moveLeft();
+            rightCoin.moveLeft();
         }
-        pos = getRealPosition(fixedPos);
     }
 
     public void moveRight()
     {
-        Vector2 fixedPos = getFixedPosition();
-
-        if ((int)fixedPos.x < (map.width - 2) && grid[(int)fixedPos.x + 2, (int)fixedPos.y] == null)
+        if(moving)
         {
-            grid[(int)fixedPos.x, (int)fixedPos.y] = null;
-            grid[(int)fixedPos.x + 2, (int)fixedPos.y] = this;
-            fixedPos = new Vector2(fixedPos.x + 1, fixedPos.y);
+
+            Vector2 fixedPos = getFixedPosition();
+
+            if ((int)fixedPos.x < (map.width - 2) && grid[(int)fixedPos.x + 2, (int)fixedPos.y] == null)
+            {
+                fixedPos = new Vector2(fixedPos.x + 1, fixedPos.y);
+            }
+            
+            pos = getRealPosition(fixedPos);
+            posUpdate();
+
+        
+            rightCoin.moveRight();
+            leftCoin.moveRight();
         }
-        Debug.Log(fixedPos);
-        pos = getRealPosition(fixedPos);
     }
 
 
     public void moveDown()
     {
-        if (moving)
+        /*if (moving)
         {
             Vector2 fixedPos = getFixedPosition();
 
-            if ((fixedPos.y + 1) == (map.heigth - 1) || grid[(int)fixedPos.x, (int)fixedPos.y + 2] != null)
+            if ((fixedPos.y + 1) == (map.heigth - 1) || grid[(int)fixedPos.x, (int)fixedPos.y + 2] != null
+                || grid[(int)fixedPos.x + 1, (int)fixedPos.y + 2] != null)
             {
                 stop();
-                grid[(int)fixedPos.x, (int)fixedPos.y] = null;
-                grid[(int)fixedPos.x, (int)fixedPos.y + 1] = this;
+                leftCoin.moveDown();
+                leftCoin.stop();
+                rightCoin.moveDown();
+                rightCoin.stop();
                 fixedPos = new Vector2(fixedPos.x, fixedPos.y + 1);
             }
             else
             {
-                grid[(int)fixedPos.x, (int)fixedPos.y] = null;
-                grid[(int)fixedPos.x, (int)fixedPos.y + 1] = this;
+                rightCoin.moveDown();
+                leftCoin.moveDown();
                 fixedPos = new Vector2(fixedPos.x, fixedPos.y + 1);
             }
 
             pos = getRealPosition(fixedPos);
             posUpdate();
-        }
+        }*/
     }
 
     public Vector2 getFixedPosition()
@@ -126,5 +143,15 @@ public class Note : Entity {
     private void posUpdate()
     {
         gameObject.transform.position = pos;
+    }
+
+    public Coin getLeftCoin()
+    {
+        return leftCoin;
+    }
+
+    public Coin getRightCoin()
+    {
+        return rightCoin;
     }
 }

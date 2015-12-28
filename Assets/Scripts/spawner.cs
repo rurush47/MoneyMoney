@@ -38,7 +38,7 @@ public class Spawner : MonoBehaviour {
 	{
 		GameObject newObj = Instantiate(note, initialPos, Quaternion.identity) as GameObject;
         Note newNote = newObj.GetComponent<Note>();
-        Debug.Log(newNote.getFixedPosition());
+        
         map.mapAppend(newNote);	
 	}
 

@@ -42,6 +42,7 @@ public class Coin : Entity {
                 grid[(int)fixedPos.x - 1, (int)fixedPos.y] = this;
                 fixedPos = new Vector2(fixedPos.x - 1, fixedPos.y);
             }
+
             pos = getRealPosition(fixedPos);
             posUpdate();
         }
@@ -73,20 +74,28 @@ public class Coin : Entity {
         {
             Vector2 fixedPos = getFixedPosition();
 
-            
-            grid[(int)fixedPos.x, (int)fixedPos.y] = null;
-            grid[(int)fixedPos.x, (int)fixedPos.y + 1] = this;
-            fixedPos = new Vector2(fixedPos.x, fixedPos.y + 1);
-            
-            if ((fixedPos.y) == (map.heigth - 1) || grid[(int)fixedPos.x, (int)fixedPos.y + 1] != null)
+            if ((fixedPos.y) < (map.heigth - 1) && grid[(int)fixedPos.x, (int)fixedPos.y + 1] == null)
             {
-                stop();
+
+                grid[(int)fixedPos.x, (int)fixedPos.y] = null;
+                grid[(int)fixedPos.x, (int)fixedPos.y + 1] = this;
+                fixedPos = new Vector2(fixedPos.x, fixedPos.y + 1);
             }
+
+            stopCheck(fixedPos);
 
             pos = getRealPosition(fixedPos);
             posUpdate();
 		}
 	}
+
+    private void stopCheck(Vector2 fixedPos)
+    { 
+        if ((fixedPos.y) == (map.heigth - 1) || grid[(int)fixedPos.x, (int)fixedPos.y + 1] != null)
+        {
+            stop();
+        }
+    }
 
 	private void posUpdate()
 	{
@@ -95,17 +104,17 @@ public class Coin : Entity {
 
 	public Vector2 getFixedPosition()
 	{
-		if (pos.x == 0 && pos.y == 0)
+		if (pos.x == 0f && pos.y == 0f)
 		{
 			return new Vector2(0, 0);
 		}
 
-		if (pos.x == 0)
+		if (pos.x == 0f)
 		{
-			return new Vector2(0, (-pos.y / Addition));
+			return new Vector2(0f, (-pos.y / Addition));
 		}
 
-		if (pos.y == 0)
+		if (pos.y == 0f)
 		{
 			return new Vector2((pos.x / Addition), 0);
 		}
@@ -180,7 +189,7 @@ public class Coin : Entity {
                     toDestroyCoin.note = null;
                 }
             }
-
+            ////
 			map.getCoins().Remove(toDestroyCoin);
 			Destroy(toDestroy);
 			currentGrid[x, y - i] = null;

@@ -38,6 +38,11 @@ public class Note : Entity {
         {
             moveRight();
         }
+
+        if (Input.GetKeyDown(KeyCode.Space) && moving)
+        {
+            rotate();
+        }
     }
 
     public void moveLeft()
@@ -76,6 +81,11 @@ public class Note : Entity {
             }
             transform.position = leftCoin.transform.position;
         }
+    }
+
+    public void rotate()
+    {
+
     }
 
     public Vector2 getFixedPosition()

@@ -21,7 +21,7 @@ public class Piggy : Entity {
 
         for (int i = 0; i < 4; i++)
         {
-            Entity currenCoin = currentGrid[fixedPos.X, fixedPos.Y - (i + 2)];
+            Entity currenCoin = currentGrid[fixedPos.x, fixedPos.y - (i + 2)];
             if (currenCoin is Coin && currenCoin.GetComponent<Coin>().IsMoving() 
                 && currenCoin.Type == Type)
             {
@@ -32,7 +32,7 @@ public class Piggy : Entity {
             
         for (int i = 0; i < 4; i++)
         {
-            Entity currenCoin2 = currentGrid[fixedPos.X + 1, fixedPos.Y - (i + 2)];
+            Entity currenCoin2 = currentGrid[fixedPos.x + 1, fixedPos.y - (i + 2)];
             if (currenCoin2 is Coin && currenCoin2.GetComponent<Coin>().IsMoving() 
                 && currenCoin2.Type == Type)
             {
@@ -42,12 +42,12 @@ public class Piggy : Entity {
 
         if (counter1 == 4)
         {
-            Score(fixedPos.X, fixedPos.Y - 2);
+            Score(fixedPos.x, fixedPos.y - 2);
         }
 
         if (counter2 == 4)
         {
-            Score(fixedPos.X + 1, fixedPos.Y - 2);
+            Score(fixedPos.x + 1, fixedPos.y - 2);
         }
 
     }

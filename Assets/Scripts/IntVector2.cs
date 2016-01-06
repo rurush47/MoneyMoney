@@ -5,13 +5,13 @@ using System.Text;
 
 public struct IntVector2
 {
-    public int X;
-    public int Y;
+    public int x;
+    public int y;
 
     public IntVector2(int newX, int newY)
     {
-        X = newX;
-        Y = newY;
+        x = newX;
+        y = newY;
     }
 }
 

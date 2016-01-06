@@ -37,11 +37,11 @@ public class Coin : Entity
         {
             IntVector2 fixedPos = GetFixedPosition();
 
-            if (fixedPos.X > 0 && Grid[fixedPos.X - 1, fixedPos.Y] == null)
+            if (fixedPos.x > 0 && Grid[fixedPos.x - 1, fixedPos.y] == null)
             {
-                Grid[fixedPos.X, fixedPos.Y] = null;
-                Grid[fixedPos.X - 1, fixedPos.Y] = this;
-                fixedPos = new IntVector2(fixedPos.X - 1, fixedPos.Y);
+                Grid[fixedPos.x, fixedPos.y] = null;
+                Grid[fixedPos.x - 1, fixedPos.y] = this;
+                fixedPos = new IntVector2(fixedPos.x - 1, fixedPos.y);
             }
 
             Pos = GetRealPosition(fixedPos);
@@ -55,11 +55,11 @@ public class Coin : Entity
         {
             IntVector2 fixedPos = GetFixedPosition();
 
-            if (fixedPos.X < (Map.Width - 1) && Grid[fixedPos.X + 1, fixedPos.Y] == null)
+            if (fixedPos.x < (Map.Width - 1) && Grid[fixedPos.x + 1, fixedPos.y] == null)
             {
-                Grid[fixedPos.X, fixedPos.Y] = null;
-                Grid[fixedPos.X + 1, fixedPos.Y] = this;
-                fixedPos = new IntVector2(fixedPos.X + 1, fixedPos.Y);
+                Grid[fixedPos.x, fixedPos.y] = null;
+                Grid[fixedPos.x + 1, fixedPos.y] = this;
+                fixedPos = new IntVector2(fixedPos.x + 1, fixedPos.y);
             }
 
             Pos = GetRealPosition(fixedPos);
@@ -74,11 +74,11 @@ public class Coin : Entity
         {
             IntVector2 fixedPos = GetFixedPosition();
 
-            if ((fixedPos.Y) < (Map.Heigth - 1) && Grid[fixedPos.X, fixedPos.Y + 1] == null)
+            if ((fixedPos.y) < (Map.Heigth - 1) && Grid[fixedPos.x, fixedPos.y + 1] == null)
             {
-                Grid[fixedPos.X, fixedPos.Y] = null;
-                Grid[fixedPos.X, fixedPos.Y + 1] = this;
-                fixedPos = new IntVector2(fixedPos.X, fixedPos.Y + 1);
+                Grid[fixedPos.x, fixedPos.y] = null;
+                Grid[fixedPos.x, fixedPos.y + 1] = this;
+                fixedPos = new IntVector2(fixedPos.x, fixedPos.y + 1);
             }
 
             StopCheck(fixedPos);
@@ -90,7 +90,7 @@ public class Coin : Entity
 
     private void StopCheck(IntVector2 fixedPos)
     {
-        if ((fixedPos.Y) == (Map.Heigth - 1) || Grid[fixedPos.X, fixedPos.Y + 1] != null)
+        if ((fixedPos.y) == (Map.Heigth - 1) || Grid[fixedPos.x, fixedPos.y + 1] != null)
         {
             Stop();
         }
@@ -119,8 +119,8 @@ public class Coin : Entity
 
         for (int i = 0; i < 3; i++)
         {
-            if ((fixedPos.Y - (i + 1)) >= 0 && currentGrid[fixedPos.X, fixedPos.Y - (i + 1)] is Coin
-                && currentGrid[fixedPos.X, fixedPos.Y - (i + 1)].Type == Type)
+            if ((fixedPos.y - (i + 1)) >= 0 && currentGrid[fixedPos.x, fixedPos.y - (i + 1)] is Coin
+                && currentGrid[fixedPos.x, fixedPos.y - (i + 1)].Type == Type)
             {
                 ++counter;
             }
@@ -128,7 +128,7 @@ public class Coin : Entity
 
         if (counter == 3)
         {
-            EraseCoinsAbove(fixedPos.X, fixedPos.Y);
+            EraseCoinsAbove(fixedPos.x, fixedPos.y);
         }
     }
 

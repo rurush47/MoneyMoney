@@ -87,7 +87,7 @@ public class Map : MonoBehaviour {
         }
 
         if (!isMovement)
-            ObjSpawner.InstantiateCoin();
+            ObjSpawner.InstantiateNewObj();
 
     }
 
@@ -97,7 +97,7 @@ public class Map : MonoBehaviour {
 
         _coins.Add(newEntity);
 
-        _grid[pos.X, pos.Y] = newEntity;
+        _grid[pos.x, pos.y] = newEntity;
     }
 
     public void mapAppend(Piggy newEntity)
@@ -106,10 +106,10 @@ public class Map : MonoBehaviour {
 
         _piggies.Add(newEntity);
 
-        _grid[pos.X, pos.Y - 1] = newEntity;
-        _grid[pos.X + 1, pos.Y - 1] = newEntity;
-        _grid[pos.X + 1, pos.Y] = newEntity;
-        _grid[pos.X, pos.Y] = newEntity;
+        _grid[pos.x, pos.y - 1] = newEntity;
+        _grid[pos.x + 1, pos.y - 1] = newEntity;
+        _grid[pos.x + 1, pos.y] = newEntity;
+        _grid[pos.x, pos.y] = newEntity;
     }
 
     public void mapAppend(Note newEntity)
@@ -121,8 +121,8 @@ public class Map : MonoBehaviour {
         _coins.Add(newEntity.GetRightCoin());
         _coins.Add(newEntity.GetLeftCoin());
 
-        _grid[pos.X, pos.Y] = newEntity.GetLeftCoin();
-        _grid[pos.X + 1, pos.Y] = newEntity.GetRightCoin();
+        _grid[pos.x, pos.y] = newEntity.GetLeftCoin();
+        _grid[pos.x + 1, pos.y] = newEntity.GetRightCoin();
 
     }
 

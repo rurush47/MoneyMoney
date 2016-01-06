@@ -20,12 +20,26 @@ public class Spawner : MonoBehaviour {
 	{
 		_map = GameMap.GetComponent<Map>();
 		InstantiatePiggy();
-		InstantiateCoin();
+		InstantiateNewObj();
 	}
-	
-	private float Randomize()
+
+	public void InstantiateNewObj()
 	{
-		return(Random.Range(0, 1));
+		float value = RandomizeSpawningObj();
+
+		if (value >= 0 && value < 1)
+		{
+			InstantiateCoin();
+		}
+		if (value >= 1 && value < 2)
+		{
+			InstantiateNote();
+		}
+	}
+
+	private float RandomizeSpawningObj()
+	{
+		return Random.Range(0, 2);
 	}
 
 	private float RandomizeType()
@@ -39,40 +53,79 @@ public class Spawner : MonoBehaviour {
 		if (value >= 0 && value < 1)
 		{
 			GameObject newObj = Instantiate(CoinDollar, _initialPos, Quaternion.identity) as GameObject;
-			Coin newCoin = newObj.GetComponent<Coin>();
-			newCoin.SetType(MoneyType.Dollar);
-			_map.mapAppend(newCoin);
+			if (newObj != null)
+			{
+				Coin newCoin = newObj.GetComponent<Coin>();
+				newCoin.SetType(MoneyType.Dollar);
+				_map.mapAppend(newCoin);
+			}
 		}
 		if (value >= 1 && value < 2)
 		{
 			GameObject newObj = Instantiate(CoinPound, _initialPos, Quaternion.identity) as GameObject;
-			Coin newCoin = newObj.GetComponent<Coin>();
-			newCoin.SetType(MoneyType.Pound);
-			_map.mapAppend(newCoin);
+			if (newObj != null)
+			{
+				Coin newCoin = newObj.GetComponent<Coin>();
+				newCoin.SetType(MoneyType.Pound);
+				_map.mapAppend(newCoin);
+			}
 		}
 		if (value >= 2 && value < 3)
 		{
 			GameObject newObj = Instantiate(CoinEuro, _initialPos, Quaternion.identity) as GameObject;
-			Coin newCoin = newObj.GetComponent<Coin>();
-			newCoin.SetType(MoneyType.Euro);
-			_map.mapAppend(newCoin);
+			if (newObj != null)
+			{
+				Coin newCoin = newObj.GetComponent<Coin>();
+				newCoin.SetType(MoneyType.Euro);
+				_map.mapAppend(newCoin);
+			}
 		}
 
 	}
 
 	public void InstantiateNote()
 	{
-		GameObject newObj = Instantiate(NoteDollar, _initialPos, Quaternion.identity) as GameObject;
-		Note newNote = newObj.GetComponent<Note>();
-		
-		_map.mapAppend(newNote);	
+		float value = RandomizeType();
+		if (value >= 0 && value < 1)
+		{
+			GameObject newObj = Instantiate(NoteDollar, _initialPos, Quaternion.identity) as GameObject;
+			if (newObj != null)
+			{
+				Note newNote = newObj.GetComponent<Note>();
+				newNote.Type = MoneyType.Dollar;
+				_map.mapAppend(newNote);
+			}
+		}
+		if (value >= 1 && value < 2)
+		{
+			GameObject newObj = Instantiate(NotePound, _initialPos, Quaternion.identity) as GameObject;
+			if (newObj != null)
+			{
+				Note newNote = newObj.GetComponent<Note>();
+				newNote.Type = MoneyType.Pound;
+				_map.mapAppend(newNote);
+			}
+		}
+		if (value >= 2 && value < 3)
+		{
+			GameObject newObj = Instantiate(NoteEuro, _initialPos, Quaternion.identity) as GameObject;
+			if (newObj != null)
+			{
+				Note newNote = newObj.GetComponent<Note>();
+				newNote.Type = MoneyType.Euro;
+				_map.mapAppend(newNote);
+			}
+		}
 	}
 
 	public void InstantiatePiggy()
 	{ 
 		Vector2 initPos = new Vector2(_map.RandomizeInitPos().x * 23, -_map.RandomizeInitPos().y * 23); 
 		GameObject newObj = Instantiate(PiggyDollar, initPos, Quaternion.identity) as GameObject;
-		Piggy newPiggy = newObj.GetComponent<Piggy>();
-		_map.mapAppend(newPiggy);
+		if (newObj != null)
+		{
+			Piggy newPiggy = newObj.GetComponent<Piggy>();
+			_map.mapAppend(newPiggy);
+		}
 	}
 }

@@ -44,6 +44,6 @@ public class Entity : MonoBehaviour {
 
     public Vector2 GetRealPosition(IntVector2 pos)
     {
-        return new Vector2(pos.X, -pos.Y) * Addition;
+        return new Vector2(pos.x, -pos.y) * Addition;
     }
 }

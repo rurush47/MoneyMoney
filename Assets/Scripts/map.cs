@@ -93,36 +93,36 @@ public class Map : MonoBehaviour {
 
     public void mapAppend(Coin newEntity)
     {
-        Vector2 pos = newEntity.getFixedPosition();
+        IntVector2 pos = newEntity.getFixedPosition();
 
         coins.Add(newEntity);
 
-        grid[(int)pos.x, (int)pos.y] = newEntity;
+        grid[pos.x, pos.y] = newEntity;
     }
 
     public void mapAppend(Piggy newEntity)
     {
-        Vector2 pos = newEntity.getFixedPosition();
+        IntVector2 pos = newEntity.getFixedPosition();
 
         piggies.Add(newEntity);
 
-        grid[(int)pos.x, (int)pos.y - 1] = newEntity;
-        grid[(int)pos.x + 1, (int)pos.y - 1] = newEntity;
-        grid[(int)pos.x + 1, (int)pos.y] = newEntity;
-        grid[(int)pos.x, (int)pos.y] = newEntity;
+        grid[pos.x, pos.y - 1] = newEntity;
+        grid[pos.x + 1, pos.y - 1] = newEntity;
+        grid[pos.x + 1, pos.y] = newEntity;
+        grid[pos.x, pos.y] = newEntity;
     }
 
     public void mapAppend(Note newEntity)
     {
-        Vector2 pos = newEntity.getFixedPosition();
+        IntVector2 pos = newEntity.getFixedPosition();
 
         notes.Add(newEntity);
 
         coins.Add(newEntity.getRightCoin());
         coins.Add(newEntity.getLeftCoin());
 
-        grid[(int)pos.x, (int)pos.y] = newEntity.getLeftCoin();
-        grid[(int)pos.x + 1, (int)pos.y] = newEntity.getRightCoin();
+        grid[pos.x, pos.y] = newEntity.getLeftCoin();
+        grid[pos.x + 1, pos.y] = newEntity.getRightCoin();
 
     }
 

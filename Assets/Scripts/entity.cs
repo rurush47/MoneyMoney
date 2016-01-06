@@ -21,4 +21,29 @@ public class Entity : MonoBehaviour {
     {
         this.type = newType;
     }
+
+    public IntVector2 getFixedPosition()
+    {
+        if (pos.x == 0f && pos.y == 0f)
+        {
+            return new IntVector2(0, 0);
+        }
+
+        if (pos.x == 0f)
+        {
+            return new IntVector2(0, (int)(-pos.y / Addition));
+        }
+
+        if (pos.y == 0f)
+        {
+            return new IntVector2((int)(pos.x / Addition), 0);
+        }
+
+        return new IntVector2((int)(pos.x / Addition), (int)(-pos.y / Addition));
+    }
+
+    public Vector2 getRealPosition(IntVector2 pos)
+    {
+        return new Vector2(pos.x, -pos.y) * Addition;
+    }
 }

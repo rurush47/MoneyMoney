@@ -5,45 +5,45 @@ public class Entity : MonoBehaviour {
 
     //TODO dziedziczone variables 
 
-    public Spawner spawner;
-    public Map map;
-    public Vector2 pos;
+    public Spawner Spawner;
+    public Map Map;
+    public Vector2 Pos;
     public float Addition;
-    public Entity[,] grid;
-    private MoneyType type;
+    public Entity[,] Grid;
+    public MoneyType Type;
 
-    public GameObject getGameObject()
+    public GameObject GetGameObject()
     {
         return gameObject;
     }
 
-    public void setType(MoneyType newType)
+    public void SetType(MoneyType newType)
     {
-        this.type = newType;
+        this.Type = newType;
     }
 
-    public IntVector2 getFixedPosition()
+    public IntVector2 GetFixedPosition()
     {
-        if (pos.x == 0f && pos.y == 0f)
+        if (Pos.x == 0f && Pos.y == 0f)
         {
             return new IntVector2(0, 0);
         }
 
-        if (pos.x == 0f)
+        if (Pos.x == 0f)
         {
-            return new IntVector2(0, (int)(-pos.y / Addition));
+            return new IntVector2(0, (int)(-Pos.y / Addition));
         }
 
-        if (pos.y == 0f)
+        if (Pos.y == 0f)
         {
-            return new IntVector2((int)(pos.x / Addition), 0);
+            return new IntVector2((int)(Pos.x / Addition), 0);
         }
 
-        return new IntVector2((int)(pos.x / Addition), (int)(-pos.y / Addition));
+        return new IntVector2((int)(Pos.x / Addition), (int)(-Pos.y / Addition));
     }
 
-    public Vector2 getRealPosition(IntVector2 pos)
+    public Vector2 GetRealPosition(IntVector2 pos)
     {
-        return new Vector2(pos.x, -pos.y) * Addition;
+        return new Vector2(pos.X, -pos.Y) * Addition;
     }
 }

@@ -2,114 +2,114 @@
 using System.Collections;
 
 public class Note : Entity {
-	public GameObject coinPrefab;
-	private Coin leftCoin;
-	private Coin rightCoin;
-	private bool moving = true;
+	public GameObject CoinPrefab;
+	private Coin _leftCoin;
+	private Coin _rightCoin;
+	private bool _moving = true;
 
 	// Use this for initialization
 	void Awake () {
 		SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
-		pos = gameObject.transform.position;
+		Pos = gameObject.transform.position;
 		Addition = sprite.bounds.size.x / 2;
-		map = FindObjectOfType<Map>();
-		grid = map.getGrid();
-		spawner = FindObjectOfType<Spawner>();
+		Map = FindObjectOfType<Map>();
+		Grid = Map.GetGrid();
+		Spawner = FindObjectOfType<Spawner>();
 		//leftCoin
-		GameObject leftCoinObj = Instantiate(coinPrefab, transform.position, Quaternion.identity) as GameObject;
-		leftCoin = leftCoinObj.GetComponent<Coin>();
-		leftCoin.hasNote = true;
-		leftCoin.setNote(this);
+		GameObject leftCoinObj = Instantiate(CoinPrefab, transform.position, Quaternion.identity) as GameObject;
+		_leftCoin = leftCoinObj.GetComponent<Coin>();
+		_leftCoin.HasNote = true;
+		_leftCoin.SetNote(this);
 		//rightCoin
-		GameObject rightCoinObj = Instantiate(coinPrefab, transform.position + new Vector3(1*Addition, 0, 0), Quaternion.identity) as GameObject;
-		rightCoin = rightCoinObj.GetComponent<Coin>();
-		rightCoin.hasNote = true;
-		rightCoin.setNote(this);
+		GameObject rightCoinObj = Instantiate(CoinPrefab, transform.position + new Vector3(1*Addition, 0, 0), Quaternion.identity) as GameObject;
+		_rightCoin = rightCoinObj.GetComponent<Coin>();
+		_rightCoin.HasNote = true;
+		_rightCoin.SetNote(this);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown(KeyCode.A) && moving)
+		if (Input.GetKeyDown(KeyCode.A) && _moving)
 		{
-			moveLeft();
+			MoveLeft();
 		}
 
-		if (Input.GetKeyDown(KeyCode.D) && moving)
+		if (Input.GetKeyDown(KeyCode.D) && _moving)
 		{
-			moveRight();
+			MoveRight();
 		}
 
-		if (Input.GetKeyDown(KeyCode.Space) && moving)
+		if (Input.GetKeyDown(KeyCode.Space) && _moving)
 		{
-			rotate();
+			Rotate();
 		}
 	}
 
-	public void moveLeft()
+	public void MoveLeft()
 	{
-		if(moving)
+		if(_moving)
 		{ 
-			leftCoin.moveLeft();
-			rightCoin.moveLeft();
-			transform.position = leftCoin.transform.position;
+			_leftCoin.MoveLeft();
+			_rightCoin.MoveLeft();
+			transform.position = _leftCoin.transform.position;
 			
 		}
 	}
 
-	public void moveRight()
+	public void MoveRight()
 	{
-		if(moving)
+		if(_moving)
 		{ 
-			rightCoin.moveRight();
-			leftCoin.moveRight();
-			transform.position = leftCoin.transform.position;
+			_rightCoin.MoveRight();
+			_leftCoin.MoveRight();
+			transform.position = _leftCoin.transform.position;
 		}
 	}
 
 
-	public void moveDown()
+	public void MoveDown()
 	{
-	   if (moving)
+	   if (_moving)
 		{
-			if (!leftCoin.isMoving())
+			if (!_leftCoin.IsMoving())
 			{
-				rightCoin.stop();
+				_rightCoin.Stop();
 			}
-			if (!rightCoin.isMoving())
+			if (!_rightCoin.IsMoving())
 			{
-				leftCoin.stop();
+				_leftCoin.Stop();
 			}
-			transform.position = leftCoin.transform.position;
+			transform.position = _leftCoin.transform.position;
 		}
 	}
 
-	public void rotate()
+	public void Rotate()
 	{
 
 	}
 
-	public void stop()
+	public void Stop()
 	{
-		moving = false;
+		_moving = false;
 	}
 
-	public bool isMoving()
+	public bool IsMoving()
 	{
-		return moving;
+		return _moving;
 	}
 
-	private void posUpdate()
+	private void PosUpdate()
 	{
-		gameObject.transform.position = pos;
+		gameObject.transform.position = Pos;
 	}
 
-	public Coin getLeftCoin()
+	public Coin GetLeftCoin()
 	{
-		return leftCoin;
+		return _leftCoin;
 	}
 
-	public Coin getRightCoin()
+	public Coin GetRightCoin()
 	{
-		return rightCoin;
+		return _rightCoin;
 	}
 }

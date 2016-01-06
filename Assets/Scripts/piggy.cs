@@ -5,31 +5,36 @@ public class Piggy : Entity {
 
     void Awake()
     {
-        pos = gameObject.transform.position;
+        Pos = gameObject.transform.position;
         SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
         Addition = sprite.bounds.size.x / 2;
-        map = FindObjectOfType<Map>();
-        spawner = FindObjectOfType<Spawner>();
+        Map = FindObjectOfType<Map>();
+        Spawner = FindObjectOfType<Spawner>();
     }
 
-    public void coinCheck()
+    public void CoinCheck()
     {
-        IntVector2 fixedPos = getFixedPosition();
-        Entity[,] currentGrid = map.getGrid();
+        IntVector2 fixedPos = GetFixedPosition();
+        Entity[,] currentGrid = Map.GetGrid();
         int counter1 = 0;
         int counter2 = 0;
 
         for (int i = 0; i < 4; i++)
         {
-            if(currentGrid[fixedPos.x, fixedPos.y - (i + 2)] is Coin)
+            Entity currenCoin = currentGrid[fixedPos.X, fixedPos.Y - (i + 2)];
+            if (currenCoin is Coin && currenCoin.GetComponent<Coin>().IsMoving() 
+                && currenCoin.Type == Type)
             {
                 ++counter1;
             }
         }
 
+            
         for (int i = 0; i < 4; i++)
         {
-            if (currentGrid[fixedPos.x + 1, fixedPos.y - (i + 2)] is Coin)
+            Entity currenCoin2 = currentGrid[fixedPos.X + 1, fixedPos.Y - (i + 2)];
+            if (currenCoin2 is Coin && currenCoin2.GetComponent<Coin>().IsMoving() 
+                && currenCoin2.Type == Type)
             {
                 ++counter2;
             }
@@ -37,24 +42,24 @@ public class Piggy : Entity {
 
         if (counter1 == 4)
         {
-            score(fixedPos.x, fixedPos.y - 2);
+            Score(fixedPos.X, fixedPos.Y - 2);
         }
 
         if (counter2 == 4)
         {
-            score(fixedPos.x + 1, fixedPos.y - 2);
+            Score(fixedPos.X + 1, fixedPos.Y - 2);
         }
 
     }
 
-    public void score(int x, int y)
+    public void Score(int x, int y)
     {
-        Entity[,] currentGrid = map.getGrid();
+        Entity[,] currentGrid = Map.GetGrid();
 
         for(int i = 0; i < 4; i++)
         {
-            GameObject toDestroy = currentGrid[x, y - i].getGameObject();
-            map.getCoins().Remove(toDestroy.GetComponent<Coin>());
+            GameObject toDestroy = currentGrid[x, y - i].GetGameObject();
+            Map.GetCoins().Remove(toDestroy.GetComponent<Coin>());
             Destroy(toDestroy);
             currentGrid[x, y - i] = null;
         }

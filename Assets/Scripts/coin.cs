@@ -1,178 +1,178 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Coin : Entity {
+public class Coin : Entity
+{
+    private Note _note;
+    private bool _moving = true;
+    public bool HasNote = false;
 
-	private Note note;
-	private bool moving = true;
-	public bool hasNote = false;
+
+    void Awake()
+    {
+        Pos = gameObject.transform.position;
+        SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
+        Addition = sprite.bounds.size.x;
+        Map = FindObjectOfType<Map>();
+        Grid = Map.GetGrid();
+        Spawner = FindObjectOfType<Spawner>();
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.A) && _moving && !HasNote)
+        {
+            MoveLeft();
+        }
+
+        if (Input.GetKeyDown(KeyCode.D) && _moving && !HasNote)
+        {
+            MoveRight();
+        }
+    }
+
+    public void MoveLeft()
+    {
+        if (_moving)
+        {
+            IntVector2 fixedPos = GetFixedPosition();
+
+            if (fixedPos.X > 0 && Grid[fixedPos.X - 1, fixedPos.Y] == null)
+            {
+                Grid[fixedPos.X, fixedPos.Y] = null;
+                Grid[fixedPos.X - 1, fixedPos.Y] = this;
+                fixedPos = new IntVector2(fixedPos.X - 1, fixedPos.Y);
+            }
+
+            Pos = GetRealPosition(fixedPos);
+            PosUpdate();
+        }
+    }
+
+    public void MoveRight()
+    {
+        if (_moving)
+        {
+            IntVector2 fixedPos = GetFixedPosition();
+
+            if (fixedPos.X < (Map.Width - 1) && Grid[fixedPos.X + 1, fixedPos.Y] == null)
+            {
+                Grid[fixedPos.X, fixedPos.Y] = null;
+                Grid[fixedPos.X + 1, fixedPos.Y] = this;
+                fixedPos = new IntVector2(fixedPos.X + 1, fixedPos.Y);
+            }
+
+            Pos = GetRealPosition(fixedPos);
+            PosUpdate();
+        }
+    }
 
 
-	void Awake () {
-		pos = gameObject.transform.position;
-		SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
-		Addition = sprite.bounds.size.x;
-		map = FindObjectOfType<Map>();
-		grid = map.getGrid();
-		spawner = FindObjectOfType<Spawner>();
-	}
-	
-	void Update ()
-	{ 
-		if (Input.GetKeyDown(KeyCode.A) && moving && !hasNote)
-		{
-			moveLeft();
-		}
+    public void MoveDown()
+    {
+        if (_moving)
+        {
+            IntVector2 fixedPos = GetFixedPosition();
 
-		if (Input.GetKeyDown(KeyCode.D) && moving && !hasNote)
-		{
-			moveRight();
-		}
-	}
+            if ((fixedPos.Y) < (Map.Heigth - 1) && Grid[fixedPos.X, fixedPos.Y + 1] == null)
+            {
+                Grid[fixedPos.X, fixedPos.Y] = null;
+                Grid[fixedPos.X, fixedPos.Y + 1] = this;
+                fixedPos = new IntVector2(fixedPos.X, fixedPos.Y + 1);
+            }
 
-	public void moveLeft()
-	{
-		if(moving)
-		{
-			IntVector2 fixedPos = getFixedPosition();
+            StopCheck(fixedPos);
 
-			if (fixedPos.x > 0 && grid[fixedPos.x - 1, fixedPos.y] == null)
-			{
-				grid[fixedPos.x, fixedPos.y] = null;
-				grid[fixedPos.x - 1, fixedPos.y] = this;
-				fixedPos = new IntVector2(fixedPos.x - 1, fixedPos.y);
-			}
+            Pos = GetRealPosition(fixedPos);
+            PosUpdate();
+        }
+    }
 
-			pos = getRealPosition(fixedPos);
-			posUpdate();
-		}
-	}
+    private void StopCheck(IntVector2 fixedPos)
+    {
+        if ((fixedPos.Y) == (Map.Heigth - 1) || Grid[fixedPos.X, fixedPos.Y + 1] != null)
+        {
+            Stop();
+        }
+    }
 
-	public void moveRight()
-	{
-		if (moving)
-		{
+    private void PosUpdate()
+    {
+        gameObject.transform.position = Pos;
+    }
 
-			IntVector2 fixedPos = getFixedPosition();
+    public void Stop()
+    {
+        _moving = false;
+    }
 
-			if (fixedPos.x < (map.width - 1) && grid[fixedPos.x + 1, fixedPos.y] == null)
-			{
-				grid[fixedPos.x, fixedPos.y] = null;
-				grid[fixedPos.x + 1, fixedPos.y] = this;
-				fixedPos = new IntVector2(fixedPos.x + 1, fixedPos.y);
-			}
+    public bool IsMoving()
+    {
+        return _moving;
+    }
 
-			pos = getRealPosition(fixedPos);
-			posUpdate();
-		}
-	}
+    public void CoinCheck()
+    {
+        IntVector2 fixedPos = GetFixedPosition();
+        Entity[,] currentGrid = Map.GetGrid();
+        int counter = 0;
 
-	
-	public void moveDown()
-	{
-		if (moving)
-		{
-			IntVector2 fixedPos = getFixedPosition();
+        for (int i = 0; i < 3; i++)
+        {
+            if ((fixedPos.Y - (i + 1)) >= 0 && currentGrid[fixedPos.X, fixedPos.Y - (i + 1)] is Coin
+                && currentGrid[fixedPos.X, fixedPos.Y - (i + 1)].Type == Type)
+            {
+                ++counter;
+            }
+        }
 
-			if ((fixedPos.y) < (map.heigth - 1) && grid[fixedPos.x, fixedPos.y + 1] == null)
-			{
+        if (counter == 3)
+        {
+            EraseCoinsAbove(fixedPos.X, fixedPos.Y);
+        }
+    }
 
-				grid[fixedPos.x, fixedPos.y] = null;
-				grid[fixedPos.x, fixedPos.y + 1] = this;
-				fixedPos = new IntVector2(fixedPos.x, fixedPos.y + 1);
-			}
+    private void EraseCoinsAbove(int x, int y)
+    {
+        Entity[,] currentGrid = Map.GetGrid();
 
-			stopCheck(fixedPos);
+        for (int i = 0; i < 4; i++)
+        {
+            GameObject toDestroy = currentGrid[x, y - i].GetGameObject();
+            Coin toDestroyCoin = toDestroy.GetComponent<Coin>();
+            //if there is note
+            if (toDestroyCoin.HasNote)
+            {
+                if (toDestroyCoin._note.GetLeftCoin() == toDestroyCoin)
+                {
+                    toDestroyCoin._note.GetRightCoin().HasNote = false;
+                    toDestroyCoin._note.GetRightCoin()._note = null;
+                    toDestroyCoin.HasNote = false;
 
-			pos = getRealPosition(fixedPos);
-			posUpdate();
-		}
-	}
+                    Map.GetNotes().Remove(toDestroyCoin._note);
+                    Destroy(toDestroyCoin._note.gameObject);
+                    toDestroyCoin._note = null;
+                }
+                else
+                {
+                    toDestroyCoin._note.GetLeftCoin().HasNote = false;
+                    toDestroyCoin._note.GetLeftCoin()._note = null;
+                    toDestroyCoin.HasNote = false;
 
-	private void stopCheck(IntVector2 fixedPos)
-	{ 
-		if ((fixedPos.y) == (map.heigth - 1) || grid[fixedPos.x, fixedPos.y + 1] != null)
-		{
-			stop();
-		}
-	}
+                    Map.GetNotes().Remove(toDestroyCoin._note);
+                    Destroy(toDestroyCoin._note.gameObject);
+                    toDestroyCoin._note = null;
+                }
+            }
+            ////
+            Map.GetCoins().Remove(toDestroyCoin);
+            Destroy(toDestroy);
+            currentGrid[x, y - i] = null;
+        }
+    }
 
-	private void posUpdate()
-	{
-		gameObject.transform.position = pos;
-	}
-
-	public void stop()
-	{
-		moving = false;
-	}
-
-	public bool isMoving()
-	{
-		return moving;
-	}
-
-	public void coinCheck()
-	{
-		IntVector2 fixedPos = getFixedPosition();
-		Entity[,] currentGrid = map.getGrid();
-		int counter = 0;
-
-		for (int i = 0; i < 3; i++)
-		{
-			if ((fixedPos.y - (i + 1)) >= 0 && currentGrid[fixedPos.x, fixedPos.y - (i + 1)] is Coin)
-			{
-				++counter;
-			}
-		}
-
-		if (counter == 3)
-		{
-			eraseCoinsAbove(fixedPos.x, fixedPos.y);
-		}
-	}
-
-	private void eraseCoinsAbove(int x, int y)
-	{
-		Entity[,] currentGrid = map.getGrid();
-
-		for (int i = 0; i < 4; i++)
-		{
-			GameObject toDestroy = currentGrid[x, y - i].getGameObject();
-			Coin toDestroyCoin = toDestroy.GetComponent<Coin>();
-			//if there is note
-			if (toDestroyCoin.hasNote)
-			{
-				if(toDestroyCoin.note.getLeftCoin() == toDestroyCoin)
-				{
-					toDestroyCoin.note.getRightCoin().hasNote = false;
-					toDestroyCoin.note.getRightCoin().note = null;
-					toDestroyCoin.hasNote = false;
-
-					map.getNotes().Remove(toDestroyCoin.note);
-					Destroy(toDestroyCoin.note.gameObject);
-					toDestroyCoin.note = null;
-				}
-				else
-				{
-					toDestroyCoin.note.getLeftCoin().hasNote = false;
-					toDestroyCoin.note.getLeftCoin().note = null;
-					toDestroyCoin.hasNote = false;
-
-					map.getNotes().Remove(toDestroyCoin.note);
-					Destroy(toDestroyCoin.note.gameObject);
-					toDestroyCoin.note = null;
-				}
-			}
-			////
-			map.getCoins().Remove(toDestroyCoin);
-			Destroy(toDestroy);
-			currentGrid[x, y - i] = null;
-		}
-	}
-
-	public void setNote(Note parentNote)
-	{
-		note = parentNote;
-	}
+    public void SetNote(Note parentNote)
+    {
+        _note = parentNote;
+    }
 }

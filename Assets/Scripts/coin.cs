@@ -4,9 +4,7 @@ using System.Collections;
 public class Coin : Entity
 {
     private Note _note;
-    private bool _moving = true;
     public bool HasNote = false;
-
 
     void Awake()
     {
@@ -80,6 +78,14 @@ public class Coin : Entity
                 Grid[fixedPos.x, fixedPos.y + 1] = this;
                 fixedPos = new IntVector2(fixedPos.x, fixedPos.y + 1);
             }
+            //check if coin under is moving to prevent in-air blocking
+            else if ((fixedPos.y) < (Map.Heigth - 1) && Grid[fixedPos.x, fixedPos.y + 1] != null
+                && (Grid[fixedPos.x, fixedPos.y + 1]).GetComponent<Entity>().IsMoving())
+            {
+                Grid[fixedPos.x, fixedPos.y] = null;
+                Grid[fixedPos.x, fixedPos.y + 1] = this;
+                fixedPos = new IntVector2(fixedPos.x, fixedPos.y + 1);
+            }
 
             StopCheck(fixedPos);
 
@@ -90,7 +96,9 @@ public class Coin : Entity
 
     private void StopCheck(IntVector2 fixedPos)
     {
-        if ((fixedPos.y) == (Map.Heigth - 1) || Grid[fixedPos.x, fixedPos.y + 1] != null)
+        //check if coin under is moving to prevent in-air blocking
+        if ((fixedPos.y) == (Map.Heigth - 1) || (Grid[fixedPos.x, fixedPos.y + 1] != null
+            && !(Grid[fixedPos.x, fixedPos.y + 1].GetComponent<Entity>().IsMoving())))
         {
             Stop();
         }
@@ -106,10 +114,11 @@ public class Coin : Entity
         _moving = false;
     }
 
-    public bool IsMoving()
+    public void Move()
     {
-        return _moving;
+        _moving = true;
     }
+
 
     public void CoinCheck()
     {
@@ -145,6 +154,7 @@ public class Coin : Entity
             {
                 if (toDestroyCoin._note.GetLeftCoin() == toDestroyCoin)
                 {
+                    toDestroyCoin._note.GetRightCoin().Move();
                     toDestroyCoin._note.GetRightCoin().HasNote = false;
                     toDestroyCoin._note.GetRightCoin()._note = null;
                     toDestroyCoin.HasNote = false;
@@ -152,9 +162,11 @@ public class Coin : Entity
                     Map.GetNotes().Remove(toDestroyCoin._note);
                     Destroy(toDestroyCoin._note.gameObject);
                     toDestroyCoin._note = null;
+                    //right coin movement
                 }
                 else
                 {
+                    toDestroyCoin._note.GetLeftCoin().Move();
                     toDestroyCoin._note.GetLeftCoin().HasNote = false;
                     toDestroyCoin._note.GetLeftCoin()._note = null;
                     toDestroyCoin.HasNote = false;

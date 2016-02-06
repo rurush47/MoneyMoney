@@ -5,6 +5,7 @@ public class Piggy : Entity {
 
     void Awake()
     {
+        _moving = false;
         Pos = gameObject.transform.position;
         SpriteRenderer sprite = gameObject.GetComponent<SpriteRenderer>();
         Addition = sprite.bounds.size.x / 2;

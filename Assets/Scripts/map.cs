@@ -51,18 +51,17 @@ public class Map : MonoBehaviour {
     void GameUpdate()
     {
         //somehow foreach gives a bug
+        foreach (Piggy element in _piggies)
+        {
+            element.CoinCheck();
+        }
+
 
         for (int i = 0; i < _coins.Count; i++)
         {
             if(!_coins[i].IsMoving())
                 _coins[i].CoinCheck();
         }
-
-        foreach (Piggy element in _piggies)
-        {
-            element.CoinCheck();
-        }
-
         //items movement
 
         for (int i = 0; i < _coins.Count; i++)

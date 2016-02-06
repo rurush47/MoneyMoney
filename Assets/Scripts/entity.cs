@@ -11,6 +11,7 @@ public class Entity : MonoBehaviour {
     public float Addition;
     public Entity[,] Grid;
     public MoneyType Type;
+    public bool _moving = true;
 
     public GameObject GetGameObject()
     {
@@ -45,5 +46,10 @@ public class Entity : MonoBehaviour {
     public Vector2 GetRealPosition(IntVector2 pos)
     {
         return new Vector2(pos.x, -pos.y) * Addition;
+    }
+
+    public bool IsMoving()
+    {
+        return _moving;
     }
 }

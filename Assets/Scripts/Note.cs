@@ -93,11 +93,6 @@ public class Note : Entity {
 		_moving = false;
 	}
 
-	public bool IsMoving()
-	{
-		return _moving;
-	}
-
 	private void PosUpdate()
 	{
 		gameObject.transform.position = Pos;

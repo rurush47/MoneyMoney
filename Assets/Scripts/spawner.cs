@@ -53,30 +53,33 @@ public class Spawner : MonoBehaviour {
 		if (value >= 0 && value < 1)
 		{
 			GameObject newObj = Instantiate(CoinDollar, _initialPos, Quaternion.identity) as GameObject;
-			if (newObj != null)
+            Coin newCoin = newObj.GetComponent<Coin>();
+            newCoin.Type = MoneyType.Dollar;
+
+            if (newObj != null)
 			{
-				Coin newCoin = newObj.GetComponent<Coin>();
-				newCoin.SetType(MoneyType.Dollar);
 				_map.mapAppend(newCoin);
 			}
 		}
 		if (value >= 1 && value < 2)
 		{
 			GameObject newObj = Instantiate(CoinPound, _initialPos, Quaternion.identity) as GameObject;
-			if (newObj != null)
+            Coin newCoin = newObj.GetComponent<Coin>();
+            newCoin.Type = MoneyType.Pound;
+
+            if (newObj != null)
 			{
-				Coin newCoin = newObj.GetComponent<Coin>();
-				newCoin.SetType(MoneyType.Pound);
 				_map.mapAppend(newCoin);
 			}
 		}
 		if (value >= 2 && value < 3)
 		{
 			GameObject newObj = Instantiate(CoinEuro, _initialPos, Quaternion.identity) as GameObject;
-			if (newObj != null)
+            Coin newCoin = newObj.GetComponent<Coin>();
+            newCoin.Type = MoneyType.Euro;
+
+            if (newObj != null)
 			{
-				Coin newCoin = newObj.GetComponent<Coin>();
-				newCoin.SetType(MoneyType.Euro);
 				_map.mapAppend(newCoin);
 			}
 		}
@@ -89,30 +92,33 @@ public class Spawner : MonoBehaviour {
 		if (value >= 0 && value < 1)
 		{
 			GameObject newObj = Instantiate(NoteDollar, _initialPos, Quaternion.identity) as GameObject;
-			if (newObj != null)
+            Note newNote = newObj.GetComponent<Note>();
+            newNote.Type = MoneyType.Dollar;
+
+            if (newObj != null)
 			{
-				Note newNote = newObj.GetComponent<Note>();
-				newNote.Type = MoneyType.Dollar;
 				_map.mapAppend(newNote);
 			}
 		}
 		if (value >= 1 && value < 2)
 		{
 			GameObject newObj = Instantiate(NotePound, _initialPos, Quaternion.identity) as GameObject;
-			if (newObj != null)
+            Note newNote = newObj.GetComponent<Note>();
+            newNote.Type = MoneyType.Pound;
+
+            if (newObj != null)
 			{
-				Note newNote = newObj.GetComponent<Note>();
-				newNote.Type = MoneyType.Pound;
 				_map.mapAppend(newNote);
 			}
 		}
 		if (value >= 2 && value < 3)
 		{
 			GameObject newObj = Instantiate(NoteEuro, _initialPos, Quaternion.identity) as GameObject;
-			if (newObj != null)
+            Note newNote = newObj.GetComponent<Note>();
+            newNote.Type = MoneyType.Euro;
+
+            if (newObj != null)
 			{
-				Note newNote = newObj.GetComponent<Note>();
-				newNote.Type = MoneyType.Euro;
 				_map.mapAppend(newNote);
 			}
 		}
@@ -121,10 +127,11 @@ public class Spawner : MonoBehaviour {
 	public void InstantiatePiggy()
 	{ 
 		Vector2 initPos = new Vector2(_map.RandomizeInitPos().x * 23, -_map.RandomizeInitPos().y * 23); 
-		GameObject newObj = Instantiate(PiggyDollar, initPos, Quaternion.identity) as GameObject;
+		GameObject newObj = Instantiate(PiggyPound, initPos, Quaternion.identity) as GameObject;
 		if (newObj != null)
 		{
 			Piggy newPiggy = newObj.GetComponent<Piggy>();
+			newPiggy.Type = MoneyType.Pound;
 			_map.mapAppend(newPiggy);
 		}
 	}

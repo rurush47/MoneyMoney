@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Coin : Entity
 {
-    private Note _note;
+    public Note _note;
     public bool HasNote = false;
 
     void Awake()
@@ -137,51 +137,11 @@ public class Coin : Entity
 
         if (counter == 3)
         {
-            EraseCoinsAbove(fixedPos.x, fixedPos.y);
+            Map.EraseCoinsAbove(fixedPos.x, fixedPos.y);
         }
     }
 
-    private void EraseCoinsAbove(int x, int y)
-    {
-        Entity[,] currentGrid = Map.GetGrid();
-
-        for (int i = 0; i < 4; i++)
-        {
-            GameObject toDestroy = currentGrid[x, y - i].GetGameObject();
-            Coin toDestroyCoin = toDestroy.GetComponent<Coin>();
-            //if there is note
-            if (toDestroyCoin.HasNote)
-            {
-                if (toDestroyCoin._note.GetLeftCoin() == toDestroyCoin)
-                {
-                    toDestroyCoin._note.GetRightCoin().Move();
-                    toDestroyCoin._note.GetRightCoin().HasNote = false;
-                    toDestroyCoin._note.GetRightCoin()._note = null;
-                    toDestroyCoin.HasNote = false;
-
-                    Map.GetNotes().Remove(toDestroyCoin._note);
-                    Destroy(toDestroyCoin._note.gameObject);
-                    toDestroyCoin._note = null;
-                    //right coin movement
-                }
-                else
-                {
-                    toDestroyCoin._note.GetLeftCoin().Move();
-                    toDestroyCoin._note.GetLeftCoin().HasNote = false;
-                    toDestroyCoin._note.GetLeftCoin()._note = null;
-                    toDestroyCoin.HasNote = false;
-
-                    Map.GetNotes().Remove(toDestroyCoin._note);
-                    Destroy(toDestroyCoin._note.gameObject);
-                    toDestroyCoin._note = null;
-                }
-            }
-            ////
-            Map.GetCoins().Remove(toDestroyCoin);
-            Destroy(toDestroy);
-            currentGrid[x, y - i] = null;
-        }
-    }
+    
 
     public void SetNote(Note parentNote)
     {

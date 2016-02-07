@@ -150,5 +150,47 @@ public class Map : MonoBehaviour {
     {
         return _notes;
     }
-    
+
+    public void EraseCoinsAbove(int x, int y)
+    {
+        
+
+        for (int i = 0; i < 4; i++)
+        {
+            GameObject toDestroy = _grid[x, y - i].GetGameObject();
+            Coin toDestroyCoin = toDestroy.GetComponent<Coin>();
+            //if there is note
+            if (toDestroyCoin.HasNote)
+            {
+                if (toDestroyCoin._note.GetLeftCoin() == toDestroyCoin)
+                {
+                    toDestroyCoin._note.GetRightCoin().Move();
+                    toDestroyCoin._note.GetRightCoin().HasNote = false;
+                    toDestroyCoin._note.GetRightCoin()._note = null;
+                    toDestroyCoin.HasNote = false;
+
+                    _notes.Remove(toDestroyCoin._note);
+                    Destroy(toDestroyCoin._note.gameObject);
+                    toDestroyCoin._note = null;
+                    //right coin movement
+                }
+                else
+                {
+                    toDestroyCoin._note.GetLeftCoin().Move();
+                    toDestroyCoin._note.GetLeftCoin().HasNote = false;
+                    toDestroyCoin._note.GetLeftCoin()._note = null;
+                    toDestroyCoin.HasNote = false;
+
+                    _notes.Remove(toDestroyCoin._note);
+                    Destroy(toDestroyCoin._note.gameObject);
+                    toDestroyCoin._note = null;
+                }
+            }
+            ////
+            _coins.Remove(toDestroyCoin);
+            Destroy(toDestroy);
+            _grid[x, y - i] = null;
+        }
+    }
+
 }

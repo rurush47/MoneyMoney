@@ -141,10 +141,13 @@ public class Coin : Entity
         }
     }
 
-    
-
     public void SetNote(Note parentNote)
     {
         _note = parentNote;
+    }
+
+    public Note GetNote()
+    {
+        return _note;
     }
 }

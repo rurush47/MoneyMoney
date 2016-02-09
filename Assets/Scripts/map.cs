@@ -51,9 +51,9 @@ public class Map : MonoBehaviour {
     void GameUpdate()
     {
         //somehow foreach gives a bug
-        foreach (Piggy element in _piggies)
+         for (int i = 0; i < _piggies.Count; i++)
         {
-            element.CoinCheck();
+                _piggies[i].CoinCheck();
         }
 
 
@@ -153,8 +153,6 @@ public class Map : MonoBehaviour {
 
     public void EraseCoinsAbove(int x, int y)
     {
-        
-
         for (int i = 0; i < 4; i++)
         {
             GameObject toDestroy = _grid[x, y - i].GetGameObject();
@@ -192,5 +190,26 @@ public class Map : MonoBehaviour {
             _grid[x, y - i] = null;
         }
     }
+
+    public void MoveCoinsAbove(int x, int y)
+    {
+        for (int i = y; i > 0; --i)
+        {
+            Entity coin = _grid[x, i];
+            if(coin != null && coin is Coin)
+            {
+                Coin properCoin = coin.GetComponent<Coin>();
+                if(properCoin.HasNote)
+                {
+                    properCoin.GetNote().Move();
+                }
+                else
+                {
+                    properCoin.Move();
+                }
+            }
+        }
+    }
+
 
 }

@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Piggy : Entity {
 
+    public int money = 0;
+
     void Awake()
     {
         _moving = false;
@@ -23,7 +25,7 @@ public class Piggy : Entity {
         for (int i = 0; i < 4; i++)
         {
             Entity currenCoin = currentGrid[fixedPos.x, fixedPos.y - (i + 2)];
-            if (currenCoin is Coin && currenCoin.GetComponent<Coin>().IsMoving() 
+            if (currenCoin is Coin && !currenCoin.GetComponent<Coin>().IsMoving() 
                 && currenCoin.Type == Type)
             {
                 ++counter1;
@@ -34,7 +36,7 @@ public class Piggy : Entity {
         for (int i = 0; i < 4; i++)
         {
             Entity currenCoin2 = currentGrid[fixedPos.x + 1, fixedPos.y - (i + 2)];
-            if (currenCoin2 is Coin && currenCoin2.GetComponent<Coin>().IsMoving() 
+            if (currenCoin2 is Coin && !currenCoin2.GetComponent<Coin>().IsMoving() 
                 && currenCoin2.Type == Type)
             {
                 ++counter2;
@@ -55,15 +57,26 @@ public class Piggy : Entity {
 
     public void Score(int x, int y)
     {
-        Entity[,] currentGrid = Map.GetGrid();
-
-        for(int i = 0; i < 4; i++)
+        money += 4;
+        //add points
+        Map.EraseCoinsAbove(x, y);
+        Debug.Log(money);
+        if (money >= 8)
         {
-            GameObject toDestroy = currentGrid[x, y - i].GetGameObject();
-            Map.GetCoins().Remove(toDestroy.GetComponent<Coin>());
-            Destroy(toDestroy);
-            currentGrid[x, y - i] = null;
+            Entity[,] currentGrid = Map.GetGrid();
+            IntVector2 fixedPos = GetFixedPosition();
+            currentGrid[fixedPos.x, fixedPos.y] = null;
+            currentGrid[fixedPos.x + 1, fixedPos.y] = null;
+            currentGrid[fixedPos.x + 1, fixedPos.y - 1] = null;
+            currentGrid[fixedPos.x, fixedPos.y - 1] = null;
+            Map.GetPiggies().Remove(this);
+            Destroy(gameObject);
+
+            Map.MoveCoinsAbove(fixedPos.x, fixedPos.y - 2);
+            Map.MoveCoinsAbove(fixedPos.x + 1, fixedPos.y - 2);
+
         }
     }
 
+    
 }

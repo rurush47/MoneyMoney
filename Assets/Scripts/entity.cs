@@ -52,4 +52,9 @@ public class Entity : MonoBehaviour {
     {
         return _moving;
     }
+
+    public void Move()
+    {
+        _moving = true;
+    }
 }

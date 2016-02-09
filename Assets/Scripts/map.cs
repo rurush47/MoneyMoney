@@ -201,6 +201,8 @@ public class Map : MonoBehaviour {
                 Coin properCoin = coin.GetComponent<Coin>();
                 if(properCoin.HasNote)
                 {
+                    properCoin.GetNote().GetLeftCoin().Move();
+                    properCoin.GetNote().GetRightCoin().Move();
                     properCoin.GetNote().Move();
                 }
                 else

@@ -12,6 +12,7 @@ public class Entity : MonoBehaviour {
     public Entity[,] Grid;
     public MoneyType Type;
     public bool _moving = true;
+    public bool falling = false;
 
     public GameObject GetGameObject()
     {

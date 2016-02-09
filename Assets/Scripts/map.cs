@@ -208,6 +208,7 @@ public class Map : MonoBehaviour {
                 else
                 {
                     properCoin.Move();
+
                 }
             }
         }

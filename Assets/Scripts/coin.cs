@@ -31,7 +31,7 @@ public class Coin : Entity
 
     public void MoveLeft()
     {
-        if (_moving)
+        if (_moving && !falling)
         {
             IntVector2 fixedPos = GetFixedPosition();
 
@@ -49,7 +49,7 @@ public class Coin : Entity
 
     public void MoveRight()
     {
-        if (_moving)
+        if (_moving && !falling)
         {
             IntVector2 fixedPos = GetFixedPosition();
 
@@ -112,6 +112,7 @@ public class Coin : Entity
     public void Stop()
     {
         _moving = false;
+        falling = true;
     }
 
     public void Move()

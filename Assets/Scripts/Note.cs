@@ -47,7 +47,7 @@ public class Note : Entity {
 
 	public void MoveLeft()
 	{
-		if(_moving)
+		if(_moving && !falling)
 		{ 
 			_leftCoin.MoveLeft();
 			_rightCoin.MoveLeft();
@@ -58,7 +58,7 @@ public class Note : Entity {
 
 	public void MoveRight()
 	{
-		if(_moving)
+		if(_moving && !falling)
 		{ 
 			_rightCoin.MoveRight();
 			_leftCoin.MoveRight();

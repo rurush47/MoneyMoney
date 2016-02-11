@@ -115,12 +115,6 @@ public class Coin : Entity
         falling = true;
     }
 
-    public void Move()
-    {
-        _moving = true;
-    }
-
-
     public void CoinCheck()
     {
         IntVector2 fixedPos = GetFixedPosition();

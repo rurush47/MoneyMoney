@@ -18,6 +18,8 @@ public class Map : MonoBehaviour {
     private List<Piggy> _piggies = new List<Piggy>();
     private List<Note> _notes = new List<Note>();
 
+    public bool test = true;
+
 
     Map()
     {
@@ -191,27 +193,47 @@ public class Map : MonoBehaviour {
         }
     }
 
-    public void MoveCoinsAbove(int x, int y)
+    public void MoveCoinsAbove()
     {
-        for (int i = y; i > 0; --i)
+        //double loop to make all coins fall properly after score
         {
-            Entity coin = _grid[x, i];
-            if(coin != null && coin is Coin)
+            Coin currentCoin;
+            for (int i = Heigth - 2; i >= 0; --i)
             {
-                Coin properCoin = coin.GetComponent<Coin>();
-                if(properCoin.HasNote)
+                for (int j = Width - 1; j >= 0; --j)
                 {
-                    properCoin.GetNote().GetLeftCoin().Move();
-                    properCoin.GetNote().GetRightCoin().Move();
-                    properCoin.GetNote().Move();
-                }
-                else
-                {
-                    properCoin.Move();
+                    if (_grid[j, i] != null)
+                    {
+                        currentCoin = _grid[j, i].GetComponent<Coin>();
 
+                        if(currentCoin.HasNote)
+                        {
+                            if (currentCoin.GetNote().CanMoveDown())
+                            {
+                                currentCoin.Move();
+                            }
+                        }
+                        else
+                        {
+                            if (CanMoveDown(j,i))
+                            {
+                                currentCoin.Move();
+                            }
+                        }
+                    }
                 }
             }
         }
+    }
+
+    public bool CanMoveDown(int x, int y)
+    {
+        if (_grid[x, y + 1] == null || _grid[x, y + 1] != null
+            && _grid[x, y + 1].IsMoving())
+        {
+            return true;
+        }
+        return false;
     }
 
 

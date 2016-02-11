@@ -125,9 +125,17 @@ public class Spawner : MonoBehaviour {
 	}
 
 	public void InstantiatePiggy()
-	{ 
-		Vector2 initPos = new Vector2(_map.RandomizeInitPos().x * 23, -_map.RandomizeInitPos().y * 23); 
-		GameObject newObj = Instantiate(PiggyPound, initPos, Quaternion.identity) as GameObject;
+	{
+        Vector2 initPos;
+        if (!_map.test)
+        {
+		    initPos = new Vector2(_map.RandomizeInitPos().x * 23, -_map.RandomizeInitPos().y * 23); 
+        }
+        else
+        {
+            initPos = new Vector2(23*2, -23*16);
+        }
+        GameObject newObj = Instantiate(PiggyPound, initPos, Quaternion.identity) as GameObject;
 		if (newObj != null)
 		{
 			Piggy newPiggy = newObj.GetComponent<Piggy>();

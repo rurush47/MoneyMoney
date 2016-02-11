@@ -72,9 +72,7 @@ public class Piggy : Entity {
             Map.GetPiggies().Remove(this);
             Destroy(gameObject);
 
-            Map.MoveCoinsAbove(fixedPos.x, fixedPos.y - 2);
-            Map.MoveCoinsAbove(fixedPos.x + 1, fixedPos.y - 2);
-
+            Map.MoveCoinsAbove();
         }
     }
 

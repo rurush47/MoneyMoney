@@ -5,7 +5,6 @@ public class Note : Entity {
 	public GameObject CoinPrefab;
 	private Coin _leftCoin;
 	private Coin _rightCoin;
-	private bool _moving = true;
 
 	// Use this for initialization
 	void Awake () {
@@ -107,4 +106,17 @@ public class Note : Entity {
 	{
 		return _rightCoin;
 	}
+
+    public bool CanMoveDown()
+    {
+        IntVector2 coinPos = _leftCoin.GetFixedPosition();
+        IntVector2 coin2Pos = _rightCoin.GetFixedPosition();
+
+        if (Map.CanMoveDown(coinPos.x, coinPos.y) && Map.CanMoveDown(coin2Pos.x, coin2Pos.y))
+        {
+            return true;
+        }
+        else
+            return false;
+    }
 }

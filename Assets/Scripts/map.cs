@@ -191,6 +191,8 @@ public class Map : MonoBehaviour {
             Destroy(toDestroy);
             _grid[x, y - i] = null;
         }
+
+        MoveCoinsAbove();
     }
 
     public void MoveCoinsAbove()
@@ -202,7 +204,7 @@ public class Map : MonoBehaviour {
             {
                 for (int j = Width - 1; j >= 0; --j)
                 {
-                    if (_grid[j, i] != null)
+                    if (_grid[j, i] != null && _grid[j, i] is Coin)
                     {
                         currentCoin = _grid[j, i].GetComponent<Coin>();
 

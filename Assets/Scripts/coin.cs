@@ -149,4 +149,10 @@ public class Coin : Entity
     {
         return _note;
     }
+
+    public void RotateVertical()
+    {
+        Pos = Pos - new Vector2(Addition, -Addition);
+        PosUpdate();
+    }
 }

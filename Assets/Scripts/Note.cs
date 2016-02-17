@@ -87,13 +87,17 @@ public class Note : Entity {
 
 	public void Rotate()
 	{
+        IntVector2 fixedPos = _rightCoin.GetFixedPosition();
+        Entity[,] grid = Map.GetGrid();
+
         if (_isVertical)
         {
             _isVertical = false;
             //change coin pos on map
+            grid[fixedPos.x, fixedPos.y] = null;
+            grid[fixedPos.x + 1, fixedPos.y + 1] = _rightCoin;
 
-
-
+            _rightCoin.RotateHorizontal();
             //change sprite
             string type = Map.TypeName(Type);
             Sprite newSprite = Resources.LoadAll<Sprite>("GfX/" + type + "Spreadsheet")[1];
@@ -103,9 +107,6 @@ public class Note : Entity {
         {
             _isVertical = true;
             //change coin pos on map
-            IntVector2 fixedPos = _rightCoin.GetFixedPosition();
-            Entity[,] grid = Map.GetGrid();
-
             grid[fixedPos.x, fixedPos.y] = null;
             grid[fixedPos.x - 1, fixedPos.y - 1] = _rightCoin;
 

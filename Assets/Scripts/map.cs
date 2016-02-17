@@ -74,12 +74,21 @@ public class Map : MonoBehaviour {
         }
         //items movement
 
-        for (int i = 0; i < _coins.Count; i++)
+        for(int j = Heigth - 1; j >= 0; --j)
         {
-            if (_coins[i].IsMoving())
-                _coins[i].MoveDown();
+            for(int i = Width - 1; i >= 0; --i)
+            {
+                if (_grid[i, j] is Coin)
+                {
+                    Coin coin = _grid[i, j].GetComponent<Coin>();
+                    if (coin.IsMoving())
+                    {
+                        coin.MoveDown();
+                    }
+                }
+            }
         }
-
+        //notes movement only changes their sprite pos
         for (int i = 0; i < _notes.Count; i++)
         {
             if (_notes[i].IsMoving())
@@ -278,12 +287,18 @@ public class Map : MonoBehaviour {
 
     public bool CanMoveDown(int x, int y)
     {
-        if (_grid[x, y + 1] == null || _grid[x, y + 1] != null
-            && _grid[x, y + 1].IsMoving())
+        if (x >= 0 && y < Heigth - 1 && x < Width - 1 && y >= 0)
         {
-            return true;
+            if (_grid[x, y + 1] == null || _grid[x, y + 1] != null
+                && _grid[x, y + 1].IsMoving())
+            {
+                return true;
+            }
+            else
+                return false;
         }
-        return false;
+        else
+            return false;
     }
 
     public string TypeName(MoneyType type)

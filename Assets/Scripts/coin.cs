@@ -155,4 +155,10 @@ public class Coin : Entity
         Pos = Pos - new Vector2(Addition, -Addition);
         PosUpdate();
     }
+
+    public void RotateHorizontal()
+    {
+        Pos = Pos - new Vector2(-Addition, Addition);
+        PosUpdate();
+    }
 }

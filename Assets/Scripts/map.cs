@@ -59,10 +59,18 @@ public class Map : MonoBehaviour {
         }
 
 
-        for (int i = 0; i < _coins.Count; i++)
+        for (int i = _coins.Count - 1; i >= 0 ; --i)
         {
             if(!_coins[i].IsMoving())
                 _coins[i].CoinCheck();
+        }
+
+        for (int i = _coins.Count - 1; i >= 0; --i)
+        {
+            if(_coins[i].toBeErased)
+            {
+                EraseCoinsAt(i);
+            }
         }
         //items movement
 
@@ -192,6 +200,46 @@ public class Map : MonoBehaviour {
             _grid[x, y - i] = null;
         }
 
+        MoveCoinsAbove();
+    }
+
+    public void EraseCoinsAt(int i)
+    {
+        IntVector2 fixedPos = _coins[i].GetFixedPosition();
+        GameObject toDestroy = _coins[i].GetGameObject();
+        Coin toDestroyCoin = toDestroy.GetComponent<Coin>();
+        //if there is note
+        if (toDestroyCoin.HasNote)
+        {
+            if (toDestroyCoin._note.GetLeftCoin() == toDestroyCoin)
+            {
+                toDestroyCoin._note.GetRightCoin().Move();
+                toDestroyCoin._note.GetRightCoin().HasNote = false;
+                toDestroyCoin._note.GetRightCoin()._note = null;
+                toDestroyCoin.HasNote = false;
+
+                _notes.Remove(toDestroyCoin._note);
+                Destroy(toDestroyCoin._note.gameObject);
+                toDestroyCoin._note = null;
+                //right coin movement
+            }
+            else
+            {
+                toDestroyCoin._note.GetLeftCoin().Move();
+                toDestroyCoin._note.GetLeftCoin().HasNote = false;
+                toDestroyCoin._note.GetLeftCoin()._note = null;
+                toDestroyCoin.HasNote = false;
+
+                _notes.Remove(toDestroyCoin._note);
+                Destroy(toDestroyCoin._note.gameObject);
+                toDestroyCoin._note = null;
+            }
+        }
+        ////
+        _coins.RemoveAt(i);
+        Destroy(toDestroy);
+        _grid[fixedPos.x, fixedPos.y] = null;
+     
         MoveCoinsAbove();
     }
 

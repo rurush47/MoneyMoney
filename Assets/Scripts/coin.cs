@@ -5,6 +5,7 @@ public class Coin : Entity
 {
     public Note _note;
     public bool HasNote = false;
+    public bool toBeErased = false;
 
     void Awake()
     {
@@ -132,7 +133,10 @@ public class Coin : Entity
 
         if (counter == 3)
         {
-            Map.EraseCoinsAbove(fixedPos.x, fixedPos.y);
+            for (int i = 0; i < 4; ++i)
+            {
+                currentGrid[fixedPos.x, fixedPos.y - i].GetComponent<Coin>().toBeErased = true;
+            }
         }
     }
 

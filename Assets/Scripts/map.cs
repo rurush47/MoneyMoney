@@ -127,8 +127,8 @@ public class Map : MonoBehaviour {
 
         _notes.Add(newEntity);
 
-        _coins.Add(newEntity.GetRightCoin());
         _coins.Add(newEntity.GetLeftCoin());
+        _coins.Add(newEntity.GetRightCoin());
 
         _grid[pos.x, pos.y] = newEntity.GetLeftCoin();
         _grid[pos.x + 1, pos.y] = newEntity.GetRightCoin();

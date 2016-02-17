@@ -5,6 +5,7 @@ public class Note : Entity {
 	public GameObject CoinPrefab;
 	private Coin _leftCoin;
 	private Coin _rightCoin;
+    private bool _isVertical = false;
 
 	// Use this for initialization
 	void Awake () {
@@ -73,18 +74,30 @@ public class Note : Entity {
 			if (!_leftCoin.IsMoving())
 			{
 				_rightCoin.Stop();
+                Stop();
 			}
 			if (!_rightCoin.IsMoving())
 			{
 				_leftCoin.Stop();
-			}
-			transform.position = _leftCoin.transform.position;
+                Stop();
+            }
+            transform.position = _leftCoin.transform.position;
 		}
 	}
 
 	public void Rotate()
 	{
+        if (_isVertical)
+        {
 
+        }
+        else
+        {
+            _isVertical = true;
+            string type = Map.TypeName(Type);
+            Sprite newSprite = Resources.LoadAll<Sprite>("GfX/" + type + "Spreadsheet")[2];
+            gameObject.GetComponent<SpriteRenderer>().sprite = newSprite;
+        }
 	}
 
 	public void Stop()
@@ -119,4 +132,5 @@ public class Note : Entity {
         else
             return false;
     }
+
 }

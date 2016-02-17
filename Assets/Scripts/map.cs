@@ -286,5 +286,19 @@ public class Map : MonoBehaviour {
         return false;
     }
 
-
+    public string TypeName(MoneyType type)
+    {
+        if(type == MoneyType.Dollar)
+        {
+            return "Dollar";
+        }
+        else if (type == MoneyType.Euro)
+        {
+            return "Euro";
+        }
+        else
+        {
+            return "Pound";
+        }
+    }
 }

@@ -44,7 +44,7 @@ public class Spawner : MonoBehaviour {
 
 	private float RandomizeType()
 	{
-		return /*(Random.Range(0, 3))*/ 1.5f;
+		return (Random.Range(0, 3));
 	}
 	
 	public void InstantiateCoin()

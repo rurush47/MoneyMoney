@@ -88,9 +88,10 @@ public class Note : Entity {
 	public void Rotate()
 	{
         IntVector2 fixedPos = _rightCoin.GetFixedPosition();
+        IntVector2 fixedPosLeft = _leftCoin.GetFixedPosition();
         Entity[,] grid = Map.GetGrid();
-
-        if (fixedPos.y > 0)
+                                
+        if (fixedPos.y > 0 && fixedPosLeft.x < Map.Width - 1)
         {
 
             if (_isVertical)

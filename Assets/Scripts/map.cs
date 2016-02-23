@@ -105,6 +105,7 @@ public class Map : MonoBehaviour {
         }
 
         GameOverCheck();
+        WinCheck();
 
         if (!isMovement)
             ObjSpawner.InstantiateNewObj();
@@ -330,6 +331,14 @@ public class Map : MonoBehaviour {
                     Debug.Log("GameOver");
                 }
             }
+        }
+    }
+
+    public void WinCheck()
+    {
+        if (_piggies.Count <= 0)
+        {
+            Debug.Log("GameWon");
         }
     }
 }

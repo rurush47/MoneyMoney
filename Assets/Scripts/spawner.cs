@@ -193,7 +193,6 @@ public class Spawner : MonoBehaviour {
                     if (newObj != null)
                     {
                         Piggy newPiggy = newObj.GetComponent<Piggy>();
-                        newPiggy.Type = MoneyType.Pound;
                         _map.mapAppend(newPiggy);
                         instantantiated = true;
 

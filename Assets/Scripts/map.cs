@@ -7,7 +7,7 @@ public class Map : MonoBehaviour {
 
     //grid init values
     [SerializeField] public int Width = 10;
-    [SerializeField] public int Heigth = 20;
+    [SerializeField] public int Heigth = 22;
     private Entity[,] _grid;
     //game relevant values
     public Spawner ObjSpawner;

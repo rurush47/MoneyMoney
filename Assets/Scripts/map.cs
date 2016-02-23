@@ -104,6 +104,8 @@ public class Map : MonoBehaviour {
                 isMovement = true;
         }
 
+        GameOverCheck();
+
         if (!isMovement)
             ObjSpawner.InstantiateNewObj();
 
@@ -147,7 +149,7 @@ public class Map : MonoBehaviour {
     public Vector2 RandomizeInitPos()
     {
         return new Vector2(Mathf.Floor(Random.Range(0, Width - 1)),
-        Mathf.Floor(Random.Range(4, Heigth)));
+        Mathf.Floor(Random.Range(7, Heigth - 1)));
     }
 
     public Entity[,] GetGrid()
@@ -314,6 +316,20 @@ public class Map : MonoBehaviour {
         else
         {
             return "Pound";
+        }
+    }
+
+    public void GameOverCheck()
+    {
+        for(int j = 0; j < 2; ++j)
+        {
+            for(int i = 0; i < Width; ++i)
+            {
+                if (_grid[i,j] != null && !_grid[i,j].GetComponent<Entity>().IsMoving())
+                {
+                    Debug.Log("GameOver");
+                }
+            }
         }
     }
 }

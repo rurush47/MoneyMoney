@@ -161,8 +161,6 @@ public class Spawner : MonoBehaviour {
             }
         }
 
-
-
         for (int i = 0; i < numberOfPiggies; ++i)
         {
             bool instantantiated = false;

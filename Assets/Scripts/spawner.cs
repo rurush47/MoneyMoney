@@ -48,6 +48,25 @@ public class Spawner : MonoBehaviour {
 		return (Random.Range(0, 3));
 	}
 
+    private GameObject RandomizePiggy()
+    {
+        float value = RandomizeType();
+        if (value >= 0 && value < 1)
+        {
+            return PiggyPound;
+        }
+        else if (value >= 1 && value < 2)
+        {
+            return PiggyDollar;
+        }
+        else if (value >= 2 && value < 3)
+        {
+            return PiggyEuro;
+        }
+        else
+            return PiggyEuro;
+    }
+
     public void InstantiateCoin()
 	{
 		float value = RandomizeType();
@@ -168,9 +187,9 @@ public class Spawner : MonoBehaviour {
             {
 
                 if (bannedFields[initFixedVec.x,initFixedVec.y] && bannedFields[initFixedVec.x + 1, initFixedVec.y]
-                    && bannedFields[initFixedVec.x, initFixedVec.y - 1] && bannedFields[initFixedVec.x, initFixedVec.y + 1])
+                    && bannedFields[initFixedVec.x, initFixedVec.y - 1] && bannedFields[initFixedVec.x + 1, initFixedVec.y - 1])
                 {
-                    GameObject newObj = Instantiate(PiggyPound, initvector2, Quaternion.identity) as GameObject;
+                    GameObject newObj = Instantiate(RandomizePiggy(), initvector2, Quaternion.identity) as GameObject;
                     if (newObj != null)
                     {
                         Piggy newPiggy = newObj.GetComponent<Piggy>();

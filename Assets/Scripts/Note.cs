@@ -90,33 +90,37 @@ public class Note : Entity {
         IntVector2 fixedPos = _rightCoin.GetFixedPosition();
         Entity[,] grid = Map.GetGrid();
 
-        if (_isVertical)
+        if (fixedPos.y > 0)
         {
-            _isVertical = false;
-            //change coin pos on map
-            grid[fixedPos.x, fixedPos.y] = null;
-            grid[fixedPos.x + 1, fixedPos.y + 1] = _rightCoin;
 
-            _rightCoin.RotateHorizontal();
-            //change sprite
-            string type = Map.TypeName(Type);
-            Sprite newSprite = Resources.LoadAll<Sprite>("GfX/" + type + "Spreadsheet")[1];
-            gameObject.GetComponent<SpriteRenderer>().sprite = newSprite;
-        }
-        else
-        {
-            _isVertical = true;
-            //change coin pos on map
-            grid[fixedPos.x, fixedPos.y] = null;
-            grid[fixedPos.x - 1, fixedPos.y - 1] = _rightCoin;
+            if (_isVertical)
+            {
+                _isVertical = false;
+                //change coin pos on map
+                grid[fixedPos.x, fixedPos.y] = null;
+                grid[fixedPos.x + 1, fixedPos.y + 1] = _rightCoin;
 
-            _rightCoin.RotateVertical();
-            //change sprite
-            string type = Map.TypeName(Type);
-            Sprite newSprite = Resources.LoadAll<Sprite>("GfX/" + type + "Spreadsheet")[2];
-            gameObject.GetComponent<SpriteRenderer>().sprite = newSprite;
+                _rightCoin.RotateHorizontal();
+                //change sprite
+                string type = Map.TypeName(Type);
+                Sprite newSprite = Resources.LoadAll<Sprite>("GfX/" + type + "Spreadsheet")[1];
+                gameObject.GetComponent<SpriteRenderer>().sprite = newSprite;
+            }
+            else
+            {
+                _isVertical = true;
+                //change coin pos on map
+                grid[fixedPos.x, fixedPos.y] = null;
+                grid[fixedPos.x - 1, fixedPos.y - 1] = _rightCoin;
 
-            Debug.Log(grid[fixedPos.x - 1, fixedPos.y - 1]);
+                _rightCoin.RotateVertical();
+                //change sprite
+                string type = Map.TypeName(Type);
+                Sprite newSprite = Resources.LoadAll<Sprite>("GfX/" + type + "Spreadsheet")[2];
+                gameObject.GetComponent<SpriteRenderer>().sprite = newSprite;
+
+                Debug.Log(grid[fixedPos.x - 1, fixedPos.y - 1]);
+            }
         }
 	}
 

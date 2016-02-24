@@ -304,6 +304,29 @@ public class Map : MonoBehaviour {
             return false;
     }
 
+    public bool CanMoveRight(int x, int y)
+    {
+        if (x < Width  && _grid[x + 1, y] == null ||
+            _grid[x + 1, y] != null && _grid[x + 1, y].GetComponent<Entity>().IsMoving())
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public bool CanMoveLeft(int x, int y)
+    {
+
+        if (x > 0 && _grid[x - 1, y] == null ||
+            _grid[x - 1, y] != null && _grid[x - 1, y].GetComponent<Entity>().IsMoving())
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+
     public string TypeName(MoneyType type)
     {
         if(type == MoneyType.Dollar)

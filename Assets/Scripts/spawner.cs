@@ -59,51 +59,38 @@ public class Spawner : MonoBehaviour {
         {
             return PiggyDollar;
         }
-        else if (value >= 2 && value < 3)
+        else 
         {
             return PiggyEuro;
         }
+    }
+
+    private GameObject RandomizeCoin()
+    {
+        float value = RandomizeType();
+        if (value >= 0 && value < 1)
+        {
+            return CoinDollar;
+        }
+        else if (value >= 1 && value < 2)
+        {
+            return CoinEuro;
+        }
         else
-            return PiggyEuro;
+        {
+            return CoinPound;
+        } 
     }
 
     public void InstantiateCoin()
 	{
-		float value = RandomizeType();
-		if (value >= 0 && value < 1)
+		GameObject newObj = Instantiate(RandomizeCoin(), _initialvector2, Quaternion.identity) as GameObject;
+        Coin newCoin = newObj.GetComponent<Coin>();
+
+        if (newObj != null)
 		{
-			GameObject newObj = Instantiate(CoinDollar, _initialvector2, Quaternion.identity) as GameObject;
-            Coin newCoin = newObj.GetComponent<Coin>();
-            newCoin.Type = MoneyType.Dollar;
-
-            if (newObj != null)
-			{
-				_map.mapAppend(newCoin);
-			}
+			_map.mapAppend(newCoin);
 		}
-		if (value >= 1 && value < 2)
-		{
-			GameObject newObj = Instantiate(CoinPound, _initialvector2, Quaternion.identity) as GameObject;
-            Coin newCoin = newObj.GetComponent<Coin>();
-            newCoin.Type = MoneyType.Pound;
-
-            if (newObj != null)
-			{
-				_map.mapAppend(newCoin);
-			}
-		}
-		if (value >= 2 && value < 3)
-		{
-			GameObject newObj = Instantiate(CoinEuro, _initialvector2, Quaternion.identity) as GameObject;
-            Coin newCoin = newObj.GetComponent<Coin>();
-            newCoin.Type = MoneyType.Euro;
-
-            if (newObj != null)
-			{
-				_map.mapAppend(newCoin);
-			}
-		}
-
 	}
 
     public IntVector2 ConvertToIntVector(Vector2 vector2)

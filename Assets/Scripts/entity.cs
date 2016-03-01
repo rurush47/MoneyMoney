@@ -58,4 +58,14 @@ public class Entity : MonoBehaviour {
     {
         _moving = true;
     }
+
+    public void MoveLeft()
+    {
+
+    }
+
+    public void MoveRight()
+    {
+
+    }
 }

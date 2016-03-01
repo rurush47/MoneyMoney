@@ -19,7 +19,7 @@ public class Coin : Entity
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A) && _moving && !HasNote)
+        /*if (Input.GetKeyDown(KeyCode.A) && _moving && !HasNote)
         {
             MoveLeft();
         }
@@ -27,7 +27,7 @@ public class Coin : Entity
         if (Input.GetKeyDown(KeyCode.D) && _moving && !HasNote)
         {
             MoveRight();
-        }
+        }*/
     }
 
     public void MoveLeft()

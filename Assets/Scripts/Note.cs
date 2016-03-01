@@ -28,18 +28,9 @@ public class Note : Entity {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		if (Input.GetKeyDown(KeyCode.A) && _moving)
-		{
-			MoveLeft();
-		}
-
-		if (Input.GetKeyDown(KeyCode.D) && _moving)
-		{
-			MoveRight();
-		}
-
-		if (Input.GetKeyDown(KeyCode.Space) && _moving)
+	void Update ()
+    { 
+        if (Input.GetKeyDown(KeyCode.Space) && _moving)
 		{
 			Rotate();
 		}

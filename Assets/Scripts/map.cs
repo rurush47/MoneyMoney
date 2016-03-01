@@ -18,6 +18,8 @@ public class Map : MonoBehaviour {
     private List<Piggy> _piggies = new List<Piggy>();
     private List<Note> _notes = new List<Note>();
 
+    private Entity _currentObj;
+
     public bool test = true;
 
 
@@ -43,7 +45,17 @@ public class Map : MonoBehaviour {
             GameUpdate();
         }
 
-        if(_time >= GameUpdateSpeed)
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            MoveCurrentObjLeft();
+        }
+
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            MoveCurrentObjRight();
+        }
+
+        if (_time >= GameUpdateSpeed)
         {
             _time = 0;
             GameUpdate();
@@ -117,6 +129,7 @@ public class Map : MonoBehaviour {
         IntVector2 pos = newEntity.GetFixedPosition();
 
         _coins.Add(newEntity);
+        _currentObj = newEntity;
 
         _grid[pos.x, pos.y] = newEntity;
     }
@@ -138,6 +151,7 @@ public class Map : MonoBehaviour {
         IntVector2 pos = newEntity.GetFixedPosition();
 
         _notes.Add(newEntity);
+        _currentObj = newEntity;
 
         _coins.Add(newEntity.GetLeftCoin());
         _coins.Add(newEntity.GetRightCoin());
@@ -362,6 +376,35 @@ public class Map : MonoBehaviour {
         if (_piggies.Count <= 0)
         {
             Debug.Log("GameWon");
+        }
+    }
+
+    public void MoveEvent()
+    {
+
+    }
+
+    public void MoveCurrentObjLeft()
+    {
+        if(_currentObj is Coin)
+        {
+            _currentObj.GetComponent<Coin>().MoveLeft();
+        }
+        else if (_currentObj is Note)
+        {
+            _currentObj.GetComponent<Note>().MoveLeft();
+        }
+    }
+
+    public void MoveCurrentObjRight()
+    {
+        if (_currentObj is Coin)
+        {
+            _currentObj.GetComponent<Coin>().MoveRight();
+        }
+        else if (_currentObj is Note)
+        {
+            _currentObj.GetComponent<Note>().MoveRight();
         }
     }
 }

@@ -15,7 +15,7 @@ public class Spawner : MonoBehaviour {
 
     public int numberOfPiggies;
 	private Map _map;
-	private Vector2 _initialvector2 = new Vector2(23,0);
+    private Vector2 _initialvector2 = new Vector2(23, 0);
 
     void Start ()
 	{

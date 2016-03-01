@@ -41,8 +41,7 @@ public class Map : MonoBehaviour {
 
         if(Input.GetKey(KeyCode.S))
         {
-            _time = 0;
-            GameUpdate();
+            MoveDown();
         }
 
         if (Input.GetKeyDown(KeyCode.A))
@@ -406,5 +405,11 @@ public class Map : MonoBehaviour {
         {
             _currentObj.GetComponent<Note>().MoveRight();
         }
+    }
+
+    public void MoveDown()
+    {
+        _time = 0;
+        GameUpdate();
     }
 }

@@ -13,7 +13,7 @@ public class Spawner : MonoBehaviour {
 	public GameObject NoteEuro;
 	public GameObject GameMap;
 
-    public int numberOfPiggies;
+    private int numberOfPiggies = ApplicationModel.numberOfPiggies;
 	private Map _map;
     private Vector2 _initialvector2 = new Vector2(23, 0);
 
@@ -21,7 +21,7 @@ public class Spawner : MonoBehaviour {
 	{
 		_map = GameMap.GetComponent<Map>();
 		InstantiatePiggy();
-		InstantiateNewObj();
+        InstantiateNewObj();
 	}
 
 	public void InstantiateNewObj()

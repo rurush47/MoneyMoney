@@ -11,7 +11,7 @@ public class Map : MonoBehaviour {
     private Entity[,] _grid;
     //game relevant values
     public Spawner ObjSpawner;
-    public float GameUpdateSpeed;
+    private float GameUpdateSpeed = ApplicationModel.gameSpeed;
     private float _time;
     //obj vactors
     private List<Coin> _coins = new List<Coin>();
@@ -364,7 +364,7 @@ public class Map : MonoBehaviour {
             {
                 if (_grid[i,j] != null && !_grid[i,j].GetComponent<Entity>().IsMoving())
                 {
-                    Debug.Log("GameOver");
+                    Application.LoadLevel("Menu");
                 }
             }
         }
@@ -374,7 +374,9 @@ public class Map : MonoBehaviour {
     {
         if (_piggies.Count <= 0)
         {
-            Debug.Log("GameWon");
+            ApplicationModel.gameSpeed -= 0.1f;
+            ApplicationModel.numberOfPiggies += 1;
+            Application.LoadLevel("Scene1");
         }
     }
 
@@ -404,6 +406,14 @@ public class Map : MonoBehaviour {
         else if (_currentObj is Note)
         {
             _currentObj.GetComponent<Note>().MoveRight();
+        }
+    }
+
+    public void Rotate()
+    {
+        if (_currentObj is Note)
+        {
+            _currentObj.GetComponent<Note>().Rotate();
         }
     }
 

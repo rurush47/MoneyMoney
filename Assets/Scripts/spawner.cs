@@ -13,7 +13,7 @@ public class Spawner : MonoBehaviour {
 	public GameObject NoteEuro;
 	public GameObject GameMap;
 
-    private int numberOfPiggies = ApplicationModel.numberOfPiggies;
+    private int numberOfPiggies = SceneManager.numberOfPiggies;
 	private Map _map;
     private Vector2 _initialvector2 = new Vector2(23, 0);
 

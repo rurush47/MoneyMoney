@@ -11,7 +11,7 @@ public class Map : MonoBehaviour {
     private Entity[,] _grid;
     //game relevant values
     public Spawner ObjSpawner;
-    private float GameUpdateSpeed = ApplicationModel.gameSpeed;
+    private float GameUpdateSpeed = SceneManager.gameSpeed;
     private float _time;
     //obj vactors
     private List<Coin> _coins = new List<Coin>();
@@ -379,8 +379,8 @@ public class Map : MonoBehaviour {
     {
         if (_piggies.Count <= 0)
         {
-            ApplicationModel.gameSpeed -= 0.1f;
-            ApplicationModel.numberOfPiggies += 1;
+            SceneManager.gameSpeed -= 0.1f;
+            SceneManager.numberOfPiggies += 1;
             Application.LoadLevel("Scene1");
         }
     }

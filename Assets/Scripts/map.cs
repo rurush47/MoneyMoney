@@ -54,6 +54,11 @@ public class Map : MonoBehaviour {
             MoveCurrentObjRight();
         }
 
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Rotate();
+        }
+
         if (_time >= GameUpdateSpeed)
         {
             _time = 0;

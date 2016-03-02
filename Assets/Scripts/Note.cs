@@ -30,20 +30,28 @@ public class Note : Entity {
 	// Update is called once per frame
 	void Update ()
     { 
-        if (Input.GetKeyDown(KeyCode.Space) && _moving)
-		{
-			Rotate();
-		}
+
 	}
 
 	public void MoveLeft()
 	{
 		if(_moving && !falling)
 		{ 
-			_leftCoin.MoveLeft();
-			_rightCoin.MoveLeft();
-			transform.position = _leftCoin.transform.position;
-			
+            if (_isVertical)
+            {
+                if(_leftCoin.CanMoveLeft() && _rightCoin.CanMoveLeft())
+                {
+                    _leftCoin.MoveLeft();
+                    _rightCoin.MoveLeft();
+                    transform.position = _leftCoin.transform.position;
+                }
+            }
+            else
+            {
+			    _leftCoin.MoveLeft();
+			    _rightCoin.MoveLeft();
+			    transform.position = _leftCoin.transform.position;
+            }
 		}
 	}
 
@@ -51,9 +59,21 @@ public class Note : Entity {
 	{
 		if(_moving && !falling)
 		{ 
-			_rightCoin.MoveRight();
-			_leftCoin.MoveRight();
-			transform.position = _leftCoin.transform.position;
+            if(_isVertical)
+            {
+                if(_leftCoin.CanMoveRight() && _rightCoin.CanMoveRight())
+                {
+                    _rightCoin.MoveRight();
+                    _leftCoin.MoveRight();
+                    transform.position = _leftCoin.transform.position;
+                }
+            }
+            else
+            {
+			    _rightCoin.MoveRight();
+			    _leftCoin.MoveRight();
+			    transform.position = _leftCoin.transform.position;
+            }
 		}
 	}
 

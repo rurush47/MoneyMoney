@@ -19,15 +19,7 @@ public class Coin : Entity
 
     void Update()
     {
-        /*if (Input.GetKeyDown(KeyCode.A) && _moving && !HasNote)
-        {
-            MoveLeft();
-        }
 
-        if (Input.GetKeyDown(KeyCode.D) && _moving && !HasNote)
-        {
-            MoveRight();
-        }*/
     }
 
     public void MoveLeft()
@@ -36,7 +28,7 @@ public class Coin : Entity
         {
             IntVector2 fixedPos = GetFixedPosition();
 
-            if (fixedPos.x > 0 && Grid[fixedPos.x - 1, fixedPos.y] == null)
+            if (CanMoveLeft())
             {
                 Grid[fixedPos.x, fixedPos.y] = null;
                 Grid[fixedPos.x - 1, fixedPos.y] = this;
@@ -54,7 +46,7 @@ public class Coin : Entity
         {
             IntVector2 fixedPos = GetFixedPosition();
 
-            if (fixedPos.x < (Map.Width - 1) && Grid[fixedPos.x + 1, fixedPos.y] == null)
+            if (CanMoveRight())
             {
                 Grid[fixedPos.x, fixedPos.y] = null;
                 Grid[fixedPos.x + 1, fixedPos.y] = this;
@@ -160,5 +152,17 @@ public class Coin : Entity
     {
         Pos = Pos - new Vector2(-Addition, Addition);
         PosUpdate();
+    }
+
+    public bool CanMoveLeft()
+    {
+        IntVector2 fixedPos = GetFixedPosition();
+        return (fixedPos.x > 0 && Grid[fixedPos.x - 1 , fixedPos.y] == null);
+    }
+
+    public bool CanMoveRight()
+    {
+        IntVector2 fixedPos = GetFixedPosition();
+        return (fixedPos.x < (Map.Width - 1) && Grid[fixedPos.x + 1, fixedPos.y] == null);
     }
 }

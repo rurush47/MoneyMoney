@@ -14,6 +14,11 @@ public class Entity : MonoBehaviour {
     public bool _moving = true;
     public bool falling = false;
 
+    void Awake()
+    {
+        Addition = 23f; 
+    }
+
     public GameObject GetGameObject()
     {
         return gameObject;
@@ -46,6 +51,7 @@ public class Entity : MonoBehaviour {
 
     public Vector2 GetRealPosition(IntVector2 pos)
     {
+        Addition = 23f;
         return new Vector2(pos.x, -pos.y) * Addition;
     }
 

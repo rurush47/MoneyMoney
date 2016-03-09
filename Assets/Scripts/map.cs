@@ -165,6 +165,11 @@ public class Map : MonoBehaviour {
 
     }
 
+    public void mapAppend(Block newEntity)
+    {
+        _currentObj = newEntity;
+    }
+
     public Vector2 RandomizeInitPos()
     {
         return new Vector2(Mathf.Floor(Random.Range(0, Width - 1)),
@@ -400,6 +405,10 @@ public class Map : MonoBehaviour {
         {
             _currentObj.GetComponent<Note>().MoveLeft();
         }
+        else if (_currentObj is Block)
+        {
+            _currentObj.GetComponent<Block>().MoveLeft();
+        }
     }
 
     public void MoveCurrentObjRight()
@@ -411,6 +420,10 @@ public class Map : MonoBehaviour {
         else if (_currentObj is Note)
         {
             _currentObj.GetComponent<Note>().MoveRight();
+        }
+        else if (_currentObj is Block)
+        {
+            _currentObj.GetComponent<Block>().MoveRight();
         }
     }
 

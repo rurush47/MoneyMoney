@@ -5,6 +5,7 @@ public class Coin : Entity
 {
     public Note _note;
     public bool HasNote = false;
+    public bool hasBlock = false;
     public bool toBeErased = false;
 
     void Awake()

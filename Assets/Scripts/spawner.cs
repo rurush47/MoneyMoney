@@ -12,10 +12,11 @@ public class Spawner : MonoBehaviour {
 	public GameObject NotePound;
 	public GameObject NoteEuro;
 	public GameObject GameMap;
+    public GameObject Block;
 
     private int numberOfPiggies = SceneManager.numberOfPiggies;
 	private Map _map;
-    private Vector2 _initialvector2 = new Vector2(23, 0);
+    public Vector2 _initialvector2 = new Vector2(23, 0);
 
     void Start ()
 	{
@@ -30,17 +31,21 @@ public class Spawner : MonoBehaviour {
 
 		if (value >= 0 && value < 1)
 		{
-			InstantiateCoin();
+			InstantiateCoin(_initialvector2);
 		}
 		if (value >= 1 && value < 2)
 		{
-			InstantiateNote();
+			InstantiateNote(_initialvector2);
 		}
+        if (value >= 2 && value < 3)
+        {
+            InstantiateBlock(_initialvector2);
+        }
 	}
 
 	private float RandomizeSpawningObj()
 	{
-		return Random.Range(0, 2);
+		return /*Random.Range(0,3)*/ 2.5f;
 	}
 
 	private float RandomizeType()
@@ -65,7 +70,7 @@ public class Spawner : MonoBehaviour {
         }
     }
 
-    private GameObject RandomizeCoin()
+    public GameObject RandomizeCoin()
     {
         float value = RandomizeType();
         if (value >= 0 && value < 1)
@@ -82,15 +87,17 @@ public class Spawner : MonoBehaviour {
         } 
     }
 
-    public void InstantiateCoin()
+    public GameObject InstantiateCoin(Vector2 initPos)
 	{
-		GameObject newObj = Instantiate(RandomizeCoin(), _initialvector2, Quaternion.identity) as GameObject;
+		GameObject newObj = Instantiate(RandomizeCoin(), initPos, Quaternion.identity) as GameObject;
         Coin newCoin = newObj.GetComponent<Coin>();
 
         if (newObj != null)
 		{
 			_map.mapAppend(newCoin);
 		}
+
+        return newObj;
 	}
 
     public IntVector2 ConvertToIntVector(Vector2 vector2)
@@ -113,12 +120,12 @@ public class Spawner : MonoBehaviour {
         return new IntVector2((int)(vector2.x / 23), (int)(-vector2.y / 23));
     }
 
-	public void InstantiateNote()
+	public void InstantiateNote(Vector2 initPos)
 	{
 		float value = RandomizeType();
 		if (value >= 0 && value < 1)
 		{
-			GameObject newObj = Instantiate(NoteDollar, _initialvector2, Quaternion.identity) as GameObject;
+			GameObject newObj = Instantiate(NoteDollar, initPos, Quaternion.identity) as GameObject;
             Note newNote = newObj.GetComponent<Note>();
             newNote.Type = MoneyType.Dollar;
 
@@ -129,7 +136,7 @@ public class Spawner : MonoBehaviour {
 		}
 		if (value >= 1 && value < 2)
 		{
-			GameObject newObj = Instantiate(NotePound, _initialvector2, Quaternion.identity) as GameObject;
+			GameObject newObj = Instantiate(NotePound, initPos, Quaternion.identity) as GameObject;
             Note newNote = newObj.GetComponent<Note>();
             newNote.Type = MoneyType.Pound;
 
@@ -140,7 +147,7 @@ public class Spawner : MonoBehaviour {
 		}
 		if (value >= 2 && value < 3)
 		{
-			GameObject newObj = Instantiate(NoteEuro, _initialvector2, Quaternion.identity) as GameObject;
+			GameObject newObj = Instantiate(NoteEuro, initPos, Quaternion.identity) as GameObject;
             Note newNote = newObj.GetComponent<Note>();
             newNote.Type = MoneyType.Euro;
 
@@ -151,7 +158,7 @@ public class Spawner : MonoBehaviour {
 		}
 	}
 
-	public void InstantiatePiggy()
+    public void InstantiatePiggy()
 	{
 
         Vector2 initvector2 = new Vector2(_map.RandomizeInitPos().x * 23, -_map.RandomizeInitPos().y * 23);
@@ -200,4 +207,11 @@ public class Spawner : MonoBehaviour {
 
         
 	}
+
+    public void InstantiateBlock(Vector2 initPos)
+    {
+        GameObject newObj = Instantiate(Block, initPos - new Vector2(0, 1), Quaternion.identity) as GameObject;
+        newObj.GetComponent<Block>().Append();
+        _map.mapAppend(newObj.GetComponent<Block>());
+    }
 }

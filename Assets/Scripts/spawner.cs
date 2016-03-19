@@ -39,13 +39,17 @@ public class Spawner : MonoBehaviour {
 		}
         if (value >= 2 && value < 3)
         {
+            InstantiateNoteVertical(_initialvector2 + new Vector2(0, -23));
+        }
+        if(value >= 3 && value < 4)
+        {
             InstantiateBlock(_initialvector2);
         }
-	}
+    }
 
 	private float RandomizeSpawningObj()
 	{
-		return /*Random.Range(0,3)*/ 2.5f;
+		return Random.Range(3, 4);
 	}
 
 	private float RandomizeType()
@@ -87,6 +91,22 @@ public class Spawner : MonoBehaviour {
         } 
     }
 
+    public GameObject RandomizeNote()
+    {
+        float value = RandomizeType();
+        if (value >= 0 && value < 1)
+        {
+            return NoteDollar;
+        }
+        else if (value >= 1 && value < 2)
+        {
+            return NoteEuro;
+        }
+        else
+        {
+            return NotePound;
+        }
+    }
     public GameObject InstantiateCoin(Vector2 initPos)
 	{
 		GameObject newObj = Instantiate(RandomizeCoin(), initPos, Quaternion.identity) as GameObject;
@@ -120,43 +140,33 @@ public class Spawner : MonoBehaviour {
         return new IntVector2((int)(vector2.x / 23), (int)(-vector2.y / 23));
     }
 
-	public void InstantiateNote(Vector2 initPos)
+	public GameObject InstantiateNote(Vector2 initPos)
 	{
-		float value = RandomizeType();
-		if (value >= 0 && value < 1)
-		{
-			GameObject newObj = Instantiate(NoteDollar, initPos, Quaternion.identity) as GameObject;
+			GameObject newObj = Instantiate(RandomizeNote(), initPos, Quaternion.identity) as GameObject;
             Note newNote = newObj.GetComponent<Note>();
-            newNote.Type = MoneyType.Dollar;
 
             if (newObj != null)
 			{
 				_map.mapAppend(newNote);
 			}
-		}
-		if (value >= 1 && value < 2)
-		{
-			GameObject newObj = Instantiate(NotePound, initPos, Quaternion.identity) as GameObject;
-            Note newNote = newObj.GetComponent<Note>();
-            newNote.Type = MoneyType.Pound;
 
-            if (newObj != null)
-			{
-				_map.mapAppend(newNote);
-			}
-		}
-		if (value >= 2 && value < 3)
-		{
-			GameObject newObj = Instantiate(NoteEuro, initPos, Quaternion.identity) as GameObject;
-            Note newNote = newObj.GetComponent<Note>();
-            newNote.Type = MoneyType.Euro;
+            return newObj;
+    }
 
-            if (newObj != null)
-			{
-				_map.mapAppend(newNote);
-			}
-		}
-	}
+    public GameObject InstantiateNoteVertical(Vector2 initPos)
+    {
+        GameObject newObj = Instantiate(RandomizeNote(), initPos, Quaternion.identity) as GameObject;
+        Note newNote = newObj.GetComponent<Note>();
+
+        if (newObj != null)
+        {
+            _map.mapAppend(newNote);
+        }
+
+        newNote.Rotate();
+
+        return newObj;
+    }
 
     public void InstantiatePiggy()
 	{

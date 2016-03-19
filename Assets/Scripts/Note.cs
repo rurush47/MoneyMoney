@@ -5,7 +5,7 @@ public class Note : Entity {
 	public GameObject CoinPrefab;
 	private Coin _leftCoin;
 	private Coin _rightCoin;
-    private bool _isVertical = false;
+    public bool _isVertical = false;
 
 	// Use this for initialization
 	void Awake () {
@@ -130,8 +130,6 @@ public class Note : Entity {
                 string type = Map.TypeName(Type);
                 Sprite newSprite = Resources.LoadAll<Sprite>("GfX/" + type + "Spreadsheet")[2];
                 gameObject.GetComponent<SpriteRenderer>().sprite = newSprite;
-
-                Debug.Log(grid[fixedPos.x - 1, fixedPos.y - 1]);
             }
         }
 	}

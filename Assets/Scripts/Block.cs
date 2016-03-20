@@ -69,6 +69,8 @@ public class Block : Entity {
 
     public void MoveLeft()
     {
+        bool moved = false;
+
         for (int i = 0; i < 2; ++i)
         {
             for (int j = 0; j < 2; ++j)
@@ -80,15 +82,13 @@ public class Block : Entity {
                         if (blockGrid[j, i].GetComponent<Coin>().GetNote().GetLeftCoin() == blockGrid[j, i].GetComponent<Coin>())
                         {
                             blockGrid[j, i].GetComponent<Coin>().GetNote().MoveLeft();
-                            transform.position -= new Vector3(-Addition, 0, 0);
                         }
                     }
                     else
                     {
                         blockGrid[j, i].GetComponent<Coin>().MoveLeft();
-                        transform.position -= new Vector3(-Addition, 0, 0);
                     }
-
+                    moved = true;
                 }
                 else
                 {
@@ -96,10 +96,17 @@ public class Block : Entity {
                 }
             }
         }
+
+        if(moved)
+        {
+            transform.position -= new Vector3(Addition, 0, 0);
+        }
     }
 
     public void MoveRight()
     {
+        bool moved = false;
+
         for (int i = 1; i >= 0; --i)
         {
             for (int j = 1; j >= 0; --j)
@@ -111,20 +118,24 @@ public class Block : Entity {
                         if (blockGrid[j, i].GetComponent<Coin>().GetNote().GetLeftCoin() == blockGrid[j, i].GetComponent<Coin>())
                         {
                             blockGrid[j, i].GetComponent<Coin>().GetNote().MoveRight();
-                            transform.position -= new Vector3(Addition, 0, 0);
                         }
                     }
                     else
                     {
                         blockGrid[j, i].GetComponent<Coin>().MoveRight();
-                        transform.position -= new Vector3(Addition, 0, 0);
                     }
+                    moved = true;
                 }
                 else
                 {
 
                 }
             }
+        }
+
+        if(moved)
+        {
+            transform.position += new Vector3(Addition, 0, 0);
         }
     }
 

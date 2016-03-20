@@ -11,6 +11,7 @@ public class Block : Entity {
         Map = FindObjectOfType<Map>();
         Grid = Map.GetGrid();
         Spawner = FindObjectOfType<Spawner>();
+		Pos = gameObject.transform.position;
 
         blockGrid = new Entity[2, 2];
         for (int i = 0; i < 2; ++i)
@@ -77,10 +78,16 @@ public class Block : Entity {
                     if (blockGrid[j, i].GetComponent<Coin>().HasNote)
                     {
                         if (blockGrid[j, i].GetComponent<Coin>().GetNote().GetLeftCoin() == blockGrid[j, i].GetComponent<Coin>())
+                        {
                             blockGrid[j, i].GetComponent<Coin>().GetNote().MoveLeft();
+                            transform.position -= new Vector3(-Addition, 0, 0);
+                        }
                     }
                     else
+                    {
                         blockGrid[j, i].GetComponent<Coin>().MoveLeft();
+                        transform.position -= new Vector3(-Addition, 0, 0);
+                    }
 
                 }
                 else
@@ -102,17 +109,59 @@ public class Block : Entity {
                     if (blockGrid[j, i].GetComponent<Coin>().HasNote)
                     {
                         if (blockGrid[j, i].GetComponent<Coin>().GetNote().GetLeftCoin() == blockGrid[j, i].GetComponent<Coin>())
+                        {
                             blockGrid[j, i].GetComponent<Coin>().GetNote().MoveRight();
+                            transform.position -= new Vector3(Addition, 0, 0);
+                        }
                     }
                     else
+                    {
                         blockGrid[j, i].GetComponent<Coin>().MoveRight();
-
+                        transform.position -= new Vector3(Addition, 0, 0);
+                    }
                 }
                 else
                 {
 
                 }
             }
+        }
+    }
+
+    public void StopCheck()
+    {
+        bool areMoving = false;
+
+        for (int i = 0; i < 2; ++i)
+        {
+            for (int j = 0; j < 2; ++j)
+            {
+                if (blockGrid[i, j] != null && blockGrid[i, j].IsMoving())
+                {
+                    areMoving = true;
+                }
+            }
+        }
+
+        if (!areMoving)
+        {
+            transform.position -= new Vector3(0, Addition, 0);
+            Stop();
+        }
+            
+    }
+
+    public void Stop()
+    {
+        _moving = false;
+    }
+
+    public void MoveDown()
+    {
+        StopCheck();
+        if(_moving)
+        {
+            transform.position -= new Vector3(0, Addition, 0);
         }
     }
 	
@@ -124,7 +173,25 @@ public class Block : Entity {
 
     public void Rotate()
     {
+        Entity[,] grid = Map.GetGrid();
+        IntVector2 rotation = new IntVector2(1, 0);
+        IntVector2 blockPos = GetFixedPosition();
 
+        for (int i = 0; i < 2; ++i)
+        {
+            for (int j = 0; j < 2; ++j)
+            {
+                blockGrid[i, j] = blockGrid[i + rotation.x % 2, j + rotation.y % 2];
+                grid[i, j] = grid[i, j];
+
+                if (blockGrid[i, j] != null)
+                {
+
+                }
+
+                int temp = rotation.x;
+                rotation = new IntVector2(rotation.y, temp);
+            }
+        }
     }
-
 }

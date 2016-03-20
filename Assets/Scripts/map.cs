@@ -17,6 +17,7 @@ public class Map : MonoBehaviour {
     private List<Coin> _coins = new List<Coin>();
     private List<Piggy> _piggies = new List<Piggy>();
     private List<Note> _notes = new List<Note>();
+    private List<Block> _blocks = new List<Block>();
 
     private Entity _currentObj;
 
@@ -97,7 +98,7 @@ public class Map : MonoBehaviour {
                 if (_grid[i, j] is Coin)
                 {
                     Coin coin = _grid[i, j].GetComponent<Coin>();
-                    if (coin.IsMoving())
+                    if (coin.IsMoving() && coin != _currentObj)
                     {
                         coin.MoveDown();
                     }
@@ -110,6 +111,13 @@ public class Map : MonoBehaviour {
             if (_notes[i].IsMoving())
                 _notes[i].MoveDown();
         }
+        //same for block
+        for (int i = 0; i < _blocks.Count; i++)
+        {
+            if (_blocks[i].IsMoving())
+                _blocks[i].MoveDown();
+        }
+
         //checking for movement
 
         bool isMovement = false;
@@ -167,6 +175,7 @@ public class Map : MonoBehaviour {
 
     public void mapAppend(Block newEntity)
     {
+        _blocks.Add(newEntity);
         _currentObj = newEntity;
     }
 
@@ -194,6 +203,11 @@ public class Map : MonoBehaviour {
     public List<Note> GetNotes()
     {
         return _notes;
+    }
+
+    public List<Block> GetBlocks()
+    {
+        return _blocks;
     }
 
     public void EraseCoinsAbove(int x, int y)

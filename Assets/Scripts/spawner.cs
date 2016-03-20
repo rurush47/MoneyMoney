@@ -2,6 +2,10 @@
 using System.Collections;
 
 public class Spawner : MonoBehaviour {
+
+    public float objRangeMin;
+    public float objRangeMax;
+
 	public GameObject CoinDollar;
 	public GameObject CoinPound;
 	public GameObject CoinEuro;
@@ -49,7 +53,7 @@ public class Spawner : MonoBehaviour {
 
 	private float RandomizeSpawningObj()
 	{
-		return Random.Range(3, 4);
+		return Random.Range(objRangeMin, objRangeMax);
 	}
 
 	private float RandomizeType()
@@ -220,7 +224,7 @@ public class Spawner : MonoBehaviour {
 
     public void InstantiateBlock(Vector2 initPos)
     {
-        GameObject newObj = Instantiate(Block, initPos - new Vector2(0, 1), Quaternion.identity) as GameObject;
+        GameObject newObj = Instantiate(Block, initPos, Quaternion.identity) as GameObject;
         newObj.GetComponent<Block>().Append();
         _map.mapAppend(newObj.GetComponent<Block>());
     }

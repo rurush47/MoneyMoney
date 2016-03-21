@@ -47,7 +47,7 @@ public class Spawner : MonoBehaviour {
         }
         if(value >= 3 && value < 4)
         {
-            InstantiateBlock(_initialvector2);
+            InstantiateBlock(_initialvector2 - new Vector2(23, 0));
         }
     }
 

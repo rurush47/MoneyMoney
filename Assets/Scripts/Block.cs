@@ -178,12 +178,12 @@ public class Block : Entity {
 	
     private float RandomizeTypeOfObj()
     {
-        return Random.Range(0,3);
+        return Random.Range(0, 2);
     }
 
 
     public void Rotate()
-    {
+    {/*
         Entity[,] grid = Map.GetGrid();
         IntVector2 rotation = new IntVector2(1, 0);
         IntVector2 blockPos = GetFixedPosition();
@@ -192,17 +192,38 @@ public class Block : Entity {
         {
             for (int j = 0; j < 2; ++j)
             {
-                blockGrid[i, j] = blockGrid[i + rotation.x % 2, j + rotation.y % 2];
-                grid[i, j] = grid[i, j];
+                //not best idea but to tired to coin sth else
+                IntVector2 clockVector;
+
+                if (i == 0 && j == 0)
+                {
+                    clockVector = new IntVector2(1, 0);
+                }
+                else if (i == 1 && j == 0)
+                {
+                    clockVector = new IntVector2(0, 1);
+                }
+                else if (i == 0 && j == 1)
+                {
+                    clockVector = new IntVector2(0, -1);
+                }
+                else
+                {
+                    clockVector = new IntVector2(-1, 0);
+                }
+
+                //blockGrid[i, j] = blockGrid[i + clockVector.x, j + clockVector.y];
+                //grid[blockPos.x, blockPos.y] = blockGrid[(blockPos.x + rotation.x) % 2, (blockPos.y + rotation.y) % 2];
 
                 if (blockGrid[i, j] != null)
                 {
-
+                    blockGrid[i, j].gameObject.transform.position +=
+                        new Vector3(clockVector.x * Addition, clockVector.y * Addition, 0);
                 }
 
                 int temp = rotation.x;
                 rotation = new IntVector2(rotation.y, temp);
             }
-        }
+        }*/
     }
 }

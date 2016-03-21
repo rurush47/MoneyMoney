@@ -447,6 +447,10 @@ public class Map : MonoBehaviour {
         {
             _currentObj.GetComponent<Note>().Rotate();
         }
+        if (_currentObj is Block)
+        {
+            _currentObj.GetComponent<Block>().Rotate();
+        }
     }
 
     public void MoveDown()

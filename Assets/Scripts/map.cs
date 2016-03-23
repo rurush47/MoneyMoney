@@ -6,8 +6,8 @@ using System.Linq;
 public class Map : MonoBehaviour {
 
     //grid init values
-    [SerializeField] public int Width = 10;
-    [SerializeField] public int Heigth = 22;
+    [SerializeField] public int Width;
+    [SerializeField] public int Heigth;
     private Entity[,] _grid;
     //game relevant values
     public Spawner ObjSpawner;
@@ -24,7 +24,7 @@ public class Map : MonoBehaviour {
     public bool test = true;
 
 
-    Map()
+    void Awake()
     {
         _grid = new Entity[Width, Heigth];
         for (int i = 0; i < Width; i++)
@@ -98,7 +98,7 @@ public class Map : MonoBehaviour {
                 if (_grid[i, j] is Coin)
                 {
                     Coin coin = _grid[i, j].GetComponent<Coin>();
-                    if (coin.IsMoving() && coin != _currentObj)
+                    if (coin.IsMoving())
                     {
                         coin.MoveDown();
                     }

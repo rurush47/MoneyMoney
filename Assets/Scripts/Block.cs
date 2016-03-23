@@ -5,9 +5,13 @@ public class Block : Entity {
 
     public Entity[,] blockGrid;
     private Vector2 _initPos = new Vector2(23, -23);
+    private IntVector2 intInitPosGlobal;
+    private Map map;
 
 	void Awake ()
     {
+        map = FindObjectOfType<Map>();
+        intInitPosGlobal = new IntVector2((map.Width/ 2) - 1, 0);
         Map = FindObjectOfType<Map>();
         Grid = Map.GetGrid();
         Spawner = FindObjectOfType<Spawner>();
@@ -35,7 +39,7 @@ public class Block : Entity {
                     float value = RandomizeTypeOfObj();
                     if (value >= 0 && value < 2)
                     {
-                        IntVector2 intInitPos = new IntVector2(i, j);
+                        IntVector2 intInitPos = new IntVector2(i + intInitPosGlobal.x, j);
                         Vector2 initPos = GetRealPosition(intInitPos);
 
                         blockGrid[i, j] = Spawner.InstantiateCoin(initPos).GetComponent<Coin>();
@@ -46,7 +50,7 @@ public class Block : Entity {
                         //horizontal
                         if (blockGrid[(i + 1) % 2, j] == null)
                         {
-                            IntVector2 intInitPos = new IntVector2(0, j);
+                            IntVector2 intInitPos = new IntVector2(0 + intInitPosGlobal.x, j);
                             Vector2 initPos = GetRealPosition(intInitPos);
                             //spawn block in j
                             blockGrid[0, j] = Spawner.InstantiateNote(initPos).GetComponent<Note>().GetLeftCoin();
@@ -55,7 +59,7 @@ public class Block : Entity {
                         //vertical
                         else if (blockGrid[i, (j + 1) % 2] == null)
                         {
-                            IntVector2 intInitPos = new IntVector2(i, 1);
+                            IntVector2 intInitPos = new IntVector2(i + intInitPosGlobal.x, 1);
                             Vector2 initPos = GetRealPosition(intInitPos);
                             //spawn block in i
                             blockGrid[i, 1] = Spawner.InstantiateNoteVertical(initPos).GetComponent<Note>().GetLeftCoin();

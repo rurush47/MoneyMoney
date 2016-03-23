@@ -20,7 +20,13 @@ public class Spawner : MonoBehaviour {
 
     private int numberOfPiggies = SceneManager.numberOfPiggies;
 	private Map _map;
-    public Vector2 _initialvector2 = new Vector2(23, 0);
+    public Vector2 _initialvector2;
+
+    void Awake()
+    {
+        _map = FindObjectOfType<Map>();
+        _initialvector2 = new Vector2(_map.Width / 2 * 23 - 23, 0);
+    }
 
     void Start ()
 	{
